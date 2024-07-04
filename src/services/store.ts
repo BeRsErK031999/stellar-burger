@@ -1,24 +1,22 @@
-import { ThunkAction, ThunkDispatch, thunk } from 'redux-thunk';
+import { configureStore, combineReducers, getDefaultMiddleware } from '@reduxjs/toolkit';
+import { TypedUseSelectorHook, useDispatch as dispatchHook, useSelector as selectorHook } from 'react-redux';
+import thunk from 'redux-thunk';
+import ingredientsReducer from './slices/ingredientsSlice'; // Импортируйте ваш срез ингредиентов
 
-import {
-  TypedUseSelectorHook,
-  useDispatch as dispatchHook,
-  useSelector as selectorHook
-} from 'react-redux';
+// Добавьте другие редьюсеры, если они есть
+const rootReducer = combineReducers({
+  ingredients: ingredientsReducer,
+  // Добавьте другие редьюсеры здесь
+});
 
-const store = {};
+const store = configureStore({
+  reducer: rootReducer,
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(thunk)
+});
 
-export type RootState = any;
-
-type TApplicationActions = any;
-
-export type AppThunk<Return = void> = ThunkAction<
-  Return,
-  RootState,
-  unknown,
-  TApplicationActions
->;
-
+export type RootState = ReturnType<typeof rootReducer>;
+export type TApplicationActions = any; // Обновите с реальными типами actions
+export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, RootState, unknown, TApplicationActions>;
 export type AppDispatch = ThunkDispatch<RootState, never, TApplicationActions>;
 
 export const useDispatch = () => dispatchHook<AppDispatch>();

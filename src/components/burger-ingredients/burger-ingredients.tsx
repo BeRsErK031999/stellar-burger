@@ -1,9 +1,12 @@
 import { useState, useRef, useEffect, FC } from 'react';
 import { useInView } from 'react-intersection-observer';
+import { TTabMode, TIngredient } from '@utils-types';
 
-import { TTabMode } from '@utils-types';
+interface BurgerIngredientsProps {
+  items: TIngredient[];
+}
 
-export const BurgerIngredients: FC = () => {
+export const BurgerIngredients: FC<BurgerIngredientsProps> = ({ items }) => {
   const [currentTab, setCurrentTab] = useState<TTabMode>('bun');
   const titleBunRef = useRef<HTMLHeadingElement>(null);
   const titleMainRef = useRef<HTMLHeadingElement>(null);
@@ -31,7 +34,6 @@ export const BurgerIngredients: FC = () => {
     }
   }, [inViewBuns, inViewFilling, inViewSauces]);
 
-  /* В можно лучше: скролл к разделу при клике на таб */
   const onTabClick = (tab: string) => {
     setCurrentTab(tab as TTabMode);
     if (tab === 'bun')
@@ -42,21 +44,40 @@ export const BurgerIngredients: FC = () => {
       titleSaucesRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
-  // return (
-  //   <BurgerIngredientsUI
-  //     currentTab={currentTab}
-  //     buns={buns}
-  //     mains={mains}
-  //     sauces={sauces}
-  //     titleBunRef={titleBunRef}
-  //     titleMainRef={titleMainRef}
-  //     titleSaucesRef={titleSaucesRef}
-  //     bunsRef={bunsRef}
-  //     mainsRef={mainsRef}
-  //     saucesRef={saucesRef}
-  //     onTabClick={onTabClick}
-  //   />
-  // );
+  const buns = items.filter(item => item.type === 'bun');
+  const mains = items.filter(item => item.type === 'main');
+  const sauces = items.filter(item => item.type === 'sauce');
 
-  return null;
+  return (
+    <div>
+      <div>
+        <h1>Соберите бургер</h1>
+        <div>
+          <button onClick={() => onTabClick('bun')}>Булки</button>
+          <button onClick={() => onTabClick('sauce')}>Соусы</button>
+          <button onClick={() => onTabClick('main')}>Начинки</button>
+        </div>
+      </div>
+      <div>
+        <h2 ref={titleBunRef}>Булки</h2>
+        <div ref={bunsRef}>
+          {buns.map(bun => (
+            <div key={bun._id}>{bun.name}</div>
+          ))}
+        </div>
+        <h2 ref={titleSaucesRef}>Соусы</h2>
+        <div ref={saucesRef}>
+          {sauces.map(sauce => (
+            <div key={sauce._id}>{sauce.name}</div>
+          ))}
+        </div>
+        <h2 ref={titleMainRef}>Начинки</h2>
+        <div ref={mainsRef}>
+          {mains.map(main => (
+            <div key={main._id}>{main.name}</div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
 };

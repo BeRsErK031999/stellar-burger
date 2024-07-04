@@ -1,11 +1,11 @@
-import { FC } from 'react';
-
-import { Button, Input } from '@zlden/react-developer-burger-ui-components';
+import { FC, ChangeEvent } from 'react';
+import { Button } from '@zlden/react-developer-burger-ui-components';
 import styles from './profile.module.css';
 import commonStyles from '../common.module.css';
-
 import { ProfileUIProps } from './type';
 import { ProfileMenu } from '@components';
+import { CustomInput as Input } from '../../../CustomInput';
+import { CustomPasswordInput as PasswordInput } from '../../../CustomPasswordInput';
 
 export const ProfileUI: FC<ProfileUIProps> = ({
   formValue,
@@ -28,7 +28,7 @@ export const ProfileUI: FC<ProfileUIProps> = ({
           <Input
             type={'text'}
             placeholder={'Имя'}
-            onChange={handleInputChange}
+            onChange={(e: ChangeEvent<HTMLInputElement>) => handleInputChange(e)}
             value={formValue.name}
             name={'name'}
             error={false}
@@ -41,7 +41,7 @@ export const ProfileUI: FC<ProfileUIProps> = ({
           <Input
             type={'email'}
             placeholder={'E-mail'}
-            onChange={handleInputChange}
+            onChange={(e: ChangeEvent<HTMLInputElement>) => handleInputChange(e)}
             value={formValue.email}
             name={'email'}
             error={false}
@@ -51,14 +51,10 @@ export const ProfileUI: FC<ProfileUIProps> = ({
           />
         </div>
         <div className='pb-6'>
-          <Input
-            type={'password'}
-            placeholder={'Пароль'}
-            onChange={handleInputChange}
+          <PasswordInput
+            onChange={(e: ChangeEvent<HTMLInputElement>) => handleInputChange(e)}
             value={formValue.password}
             name={'password'}
-            error={false}
-            errorText={''}
             size={'default'}
             icon={'EditIcon'}
           />

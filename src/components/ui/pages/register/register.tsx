@@ -1,12 +1,12 @@
-import { FC, useState } from 'react';
+import { FC, ChangeEvent } from 'react';
 import {
-  Input,
-  Button,
-  PasswordInput
+  Button
 } from '@zlden/react-developer-burger-ui-components';
 import styles from '../common.module.css';
 import { Link } from 'react-router-dom';
 import { RegisterUIProps } from './type';
+import { CustomInput as Input } from '../../../CustomInput';
+import { CustomPasswordInput as PasswordInput } from '../../../CustomPasswordInput';
 
 export const RegisterUI: FC<RegisterUIProps> = ({
   errorText,
@@ -18,9 +18,6 @@ export const RegisterUI: FC<RegisterUIProps> = ({
   userName,
   setUserName
 }) => (
-  /*
-    Отображение ошибок и валидация форм в "можно лучше"
-  */
   <main className={styles.container}>
     <div className={`pt-6 ${styles.wrapCenter}`}>
       <h3 className='pb-6 text text_type_main-medium'>Регистрация</h3>
@@ -34,7 +31,7 @@ export const RegisterUI: FC<RegisterUIProps> = ({
             <Input
               type='text'
               placeholder='Имя'
-              onChange={(e) => setUserName(e.target.value)}
+              onChange={(e: ChangeEvent<HTMLInputElement>) => setUserName(e.target.value)}
               value={userName}
               name='name'
               error={false}
@@ -46,7 +43,7 @@ export const RegisterUI: FC<RegisterUIProps> = ({
             <Input
               type='email'
               placeholder='E-mail'
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e: ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
               value={email}
               name={'email'}
               error={false}
@@ -56,7 +53,7 @@ export const RegisterUI: FC<RegisterUIProps> = ({
           </div>
           <div className='pb-6'>
             <PasswordInput
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={(e: ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
               value={password}
               name='password'
             />
