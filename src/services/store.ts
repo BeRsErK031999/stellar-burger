@@ -1,22 +1,44 @@
-import { configureStore, combineReducers, getDefaultMiddleware } from '@reduxjs/toolkit';
-import { TypedUseSelectorHook, useDispatch as dispatchHook, useSelector as selectorHook } from 'react-redux';
-import thunk from 'redux-thunk';
-import ingredientsReducer from './slices/ingredientsSlice'; // Импортируйте ваш срез ингредиентов
+import {
+  configureStore,
+  combineReducers,
+  Middleware,
+  AnyAction
+} from '@reduxjs/toolkit';
+import {
+  TypedUseSelectorHook,
+  useDispatch as dispatchHook,
+  useSelector as selectorHook
+} from 'react-redux';
+import { ThunkAction, ThunkDispatch } from '@reduxjs/toolkit';
+import { thunk } from 'redux-thunk';
+import ingredientsReducer from './slices/ingredientsSlice';
+import constructorItemsReducer from './slices/constructorItemsSlice';
+import userReducer from './slices/userSlice';
+import orderReducer from './slices/orderSlice';
 
-// Добавьте другие редьюсеры, если они есть
 const rootReducer = combineReducers({
   ingredients: ingredientsReducer,
-  // Добавьте другие редьюсеры здесь
+  constructorItems: constructorItemsReducer,
+  user: userReducer,
+  order: orderReducer
 });
+
+const middleware: Middleware<{}, any, any>[] = [thunk];
 
 const store = configureStore({
   reducer: rootReducer,
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(thunk)
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(middleware)
 });
 
 export type RootState = ReturnType<typeof rootReducer>;
-export type TApplicationActions = any; // Обновите с реальными типами actions
-export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, RootState, unknown, TApplicationActions>;
+export type TApplicationActions = any; // Update with actual action types
+export type AppThunk<ReturnType = void> = ThunkAction<
+  ReturnType,
+  RootState,
+  unknown,
+  TApplicationActions
+>;
 export type AppDispatch = ThunkDispatch<RootState, never, TApplicationActions>;
 
 export const useDispatch = () => dispatchHook<AppDispatch>();

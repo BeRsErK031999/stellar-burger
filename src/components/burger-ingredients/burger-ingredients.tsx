@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect, FC } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { TTabMode, TIngredient } from '@utils-types';
+import styles from './burger-ingredients.module.css';
 
 interface BurgerIngredientsProps {
   items: TIngredient[];
@@ -44,10 +45,6 @@ export const BurgerIngredients: FC<BurgerIngredientsProps> = ({ items }) => {
       titleSaucesRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
-  const buns = items.filter(item => item.type === 'bun');
-  const mains = items.filter(item => item.type === 'main');
-  const sauces = items.filter(item => item.type === 'sauce');
-
   return (
     <div>
       <div>
@@ -61,21 +58,27 @@ export const BurgerIngredients: FC<BurgerIngredientsProps> = ({ items }) => {
       <div>
         <h2 ref={titleBunRef}>Булки</h2>
         <div ref={bunsRef}>
-          {buns.map(bun => (
-            <div key={bun._id}>{bun.name}</div>
-          ))}
+          {items
+            .filter((item) => item.type === 'bun')
+            .map((item) => (
+              <div key={item._id}>{item.name}</div>
+            ))}
         </div>
         <h2 ref={titleSaucesRef}>Соусы</h2>
         <div ref={saucesRef}>
-          {sauces.map(sauce => (
-            <div key={sauce._id}>{sauce.name}</div>
-          ))}
+          {items
+            .filter((item) => item.type === 'sauce')
+            .map((item) => (
+              <div key={item._id}>{item.name}</div>
+            ))}
         </div>
         <h2 ref={titleMainRef}>Начинки</h2>
         <div ref={mainsRef}>
-          {mains.map(main => (
-            <div key={main._id}>{main.name}</div>
-          ))}
+          {items
+            .filter((item) => item.type === 'main')
+            .map((item) => (
+              <div key={item._id}>{item.name}</div>
+            ))}
         </div>
       </div>
     </div>

@@ -1,4 +1,4 @@
-export * from './constructor-page';
+export * from '../../../pages/constructor-page';
 export * from './feed';
 export * from './forgot-password';
 export * from './login';

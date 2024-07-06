@@ -10,7 +10,5 @@ interface CustomPasswordInputProps {
 }
 
 export const CustomPasswordInput: FC<CustomPasswordInputProps> = (props) => (
-  <OriginalPasswordInput
-    {...props}
-  />
+  <OriginalPasswordInput {...props} />
 );
