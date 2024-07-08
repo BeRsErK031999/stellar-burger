@@ -28,7 +28,9 @@ export const ProfileUI: FC<ProfileUIProps> = ({
           <Input
             type={'text'}
             placeholder={'Имя'}
-            onChange={(e: ChangeEvent<HTMLInputElement>) => handleInputChange(e)}
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              handleInputChange(e)
+            }
             value={formValue.name}
             name={'name'}
             error={false}
@@ -41,7 +43,9 @@ export const ProfileUI: FC<ProfileUIProps> = ({
           <Input
             type={'email'}
             placeholder={'E-mail'}
-            onChange={(e: ChangeEvent<HTMLInputElement>) => handleInputChange(e)}
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              handleInputChange(e)
+            }
             value={formValue.email}
             name={'email'}
             error={false}
@@ -52,7 +56,9 @@ export const ProfileUI: FC<ProfileUIProps> = ({
         </div>
         <div className='pb-6'>
           <PasswordInput
-            onChange={(e: ChangeEvent<HTMLInputElement>) => handleInputChange(e)}
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              handleInputChange(e)
+            }
             value={formValue.password}
             name={'password'}
             size={'default'}
