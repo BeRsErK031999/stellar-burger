@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect, FC } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { TTabMode, TIngredient } from '@utils-types';
+import { BurgerIngredientsUI } from '@ui';
 import styles from './burger-ingredients.module.css';
 
 interface BurgerIngredientsProps {
@@ -46,41 +47,18 @@ export const BurgerIngredients: FC<BurgerIngredientsProps> = ({ items }) => {
   };
 
   return (
-    <div>
-      <div>
-        <h1>Соберите бургер</h1>
-        <div>
-          <button onClick={() => onTabClick('bun')}>Булки</button>
-          <button onClick={() => onTabClick('sauce')}>Соусы</button>
-          <button onClick={() => onTabClick('main')}>Начинки</button>
-        </div>
-      </div>
-      <div>
-        <h2 ref={titleBunRef}>Булки</h2>
-        <div ref={bunsRef}>
-          {items
-            .filter((item) => item.type === 'bun')
-            .map((item) => (
-              <div key={item._id}>{item.name}</div>
-            ))}
-        </div>
-        <h2 ref={titleSaucesRef}>Соусы</h2>
-        <div ref={saucesRef}>
-          {items
-            .filter((item) => item.type === 'sauce')
-            .map((item) => (
-              <div key={item._id}>{item.name}</div>
-            ))}
-        </div>
-        <h2 ref={titleMainRef}>Начинки</h2>
-        <div ref={mainsRef}>
-          {items
-            .filter((item) => item.type === 'main')
-            .map((item) => (
-              <div key={item._id}>{item.name}</div>
-            ))}
-        </div>
-      </div>
-    </div>
+    <BurgerIngredientsUI
+      currentTab={currentTab}
+      buns={items.filter((item) => item.type === 'bun')}
+      mains={items.filter((item) => item.type === 'main')}
+      sauces={items.filter((item) => item.type === 'sauce')}
+      titleBunRef={titleBunRef}
+      titleMainRef={titleMainRef}
+      titleSaucesRef={titleSaucesRef}
+      bunsRef={bunsRef}
+      mainsRef={mainsRef}
+      saucesRef={saucesRef}
+      onTabClick={onTabClick}
+    />
   );
 };

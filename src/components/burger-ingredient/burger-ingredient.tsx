@@ -1,6 +1,5 @@
 import { FC, memo } from 'react';
 import { useLocation } from 'react-router-dom';
-
 import { BurgerIngredientUI } from '@ui';
 import { TBurgerIngredientProps } from './type';
 
@@ -9,7 +8,8 @@ export const BurgerIngredient: FC<TBurgerIngredientProps> = memo(
     const location = useLocation();
 
     const handleAdd = () => {
-      // Добавьте логику добавления ингредиента
+      // Логика добавления ингредиента
+      console.log(`Добавлен ингредиент: ${ingredient.name}`);
     };
 
     return (

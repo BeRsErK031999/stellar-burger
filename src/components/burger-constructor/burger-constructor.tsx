@@ -22,11 +22,13 @@ export const BurgerConstructor: FC = () => {
       return;
     }
     if (!constructorItems.bun || orderRequest) return;
-    // Добавьте логику создания заказа
+    // Логика создания заказа
+    console.log('Создаем заказ');
   };
 
   const closeOrderModal = () => {
-    // Добавьте логику закрытия модального окна
+    // Логика закрытия модального окна
+    console.log('Закрываем модальное окно заказа');
   };
 
   const price = useMemo(
@@ -49,6 +51,4 @@ export const BurgerConstructor: FC = () => {
       closeOrderModal={closeOrderModal}
     />
   );
-
-  // return null;
 };
