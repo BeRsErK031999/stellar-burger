@@ -1,3 +1,4 @@
+// src/services/slices/ingredientsSlice.ts
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { getIngredientsApi } from '@api';
 import { TIngredient } from '@utils-types';

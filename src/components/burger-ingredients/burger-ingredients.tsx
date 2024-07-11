@@ -1,28 +1,41 @@
-import { useState, useRef, useEffect, FC } from 'react';
+import React, { FC, useState, useRef, useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
-import { TTabMode, TIngredient } from '@utils-types';
-import { BurgerIngredientsUI } from '@ui';
+import { TIngredient, TTabMode } from '@utils-types';
 import styles from './burger-ingredients.module.css';
-
+import { useSelector } from 'react-redux';
+import {
+  selectBuns,
+  selectMains,
+  selectSauces
+} from '../../services/selectors/ingredientsSelectors';
+import { BurgerIngredients as BurgerIngredientsUI } from '../../components/ui/burger-ingredients';
 interface BurgerIngredientsProps {
   items: TIngredient[];
 }
 
-export const BurgerIngredients: FC<BurgerIngredientsProps> = ({ items }) => {
+const BurgerIngredients: FC<BurgerIngredientsProps> = () => {
+  const buns = useSelector(selectBuns);
+  const mains = useSelector(selectMains);
+  const sauces = useSelector(selectSauces);
+
   const [currentTab, setCurrentTab] = useState<TTabMode>('bun');
   const titleBunRef = useRef<HTMLHeadingElement>(null);
   const titleMainRef = useRef<HTMLHeadingElement>(null);
   const titleSaucesRef = useRef<HTMLHeadingElement>(null);
 
-  const [bunsRef, inViewBuns] = useInView({
+  const bunsRef = useRef<HTMLDivElement>(null);
+  const mainsRef = useRef<HTMLDivElement>(null);
+  const saucesRef = useRef<HTMLDivElement>(null);
+
+  const { ref: bunsInViewRef, inView: inViewBuns } = useInView({
     threshold: 0
   });
 
-  const [mainsRef, inViewFilling] = useInView({
+  const { ref: mainsInViewRef, inView: inViewFilling } = useInView({
     threshold: 0
   });
 
-  const [saucesRef, inViewSauces] = useInView({
+  const { ref: saucesInViewRef, inView: inViewSauces } = useInView({
     threshold: 0
   });
 
@@ -46,12 +59,22 @@ export const BurgerIngredients: FC<BurgerIngredientsProps> = ({ items }) => {
       titleSaucesRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
+  console.log('Buns: ', buns);
+  console.log('Mains: ', mains);
+  console.log('Sauces: ', sauces);
+
+  useEffect(() => {
+    bunsInViewRef(bunsRef.current);
+    mainsInViewRef(mainsRef.current);
+    saucesInViewRef(saucesRef.current);
+  }, [bunsInViewRef, mainsInViewRef, saucesInViewRef]);
+
   return (
     <BurgerIngredientsUI
       currentTab={currentTab}
-      buns={items.filter((item) => item.type === 'bun')}
-      mains={items.filter((item) => item.type === 'main')}
-      sauces={items.filter((item) => item.type === 'sauce')}
+      buns={buns}
+      mains={mains}
+      sauces={sauces}
       titleBunRef={titleBunRef}
       titleMainRef={titleMainRef}
       titleSaucesRef={titleSaucesRef}
@@ -62,3 +85,5 @@ export const BurgerIngredients: FC<BurgerIngredientsProps> = ({ items }) => {
     />
   );
 };
+
+export default BurgerIngredients;

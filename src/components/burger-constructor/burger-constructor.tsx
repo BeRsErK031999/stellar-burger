@@ -4,17 +4,21 @@ import { TConstructorIngredient } from '@utils-types';
 import { BurgerConstructorUI } from '@ui';
 import { useNavigate } from 'react-router-dom';
 
+const selectConstructorItems = (state: { constructorItems: any }) =>
+  state.constructorItems;
+const selectOrderRequest = (state: { order: { orderRequest: any } }) =>
+  state.order.orderRequest;
+const selectUser = (state: { user: { user: any } }) => state.user.user;
+const selectOrderModalData = (state: { order: { orderModalData: any } }) =>
+  state.order.orderModalData;
+
 export const BurgerConstructor: FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { constructorItems, orderRequest, user, orderModalData } = useSelector(
-    (state) => ({
-      constructorItems: state.constructorItems,
-      orderRequest: state.order.orderRequest,
-      user: state.user.user,
-      orderModalData: state.order.orderModalData
-    })
-  );
+  const constructorItems = useSelector(selectConstructorItems);
+  const orderRequest = useSelector(selectOrderRequest);
+  const user = useSelector(selectUser);
+  const orderModalData = useSelector(selectOrderModalData);
 
   const onOrderClick = () => {
     if (!user) {
@@ -22,13 +26,11 @@ export const BurgerConstructor: FC = () => {
       return;
     }
     if (!constructorItems.bun || orderRequest) return;
-    // Логика создания заказа
-    console.log('Создаем заказ');
+    // Добавьте логику создания заказа
   };
 
   const closeOrderModal = () => {
-    // Логика закрытия модального окна
-    console.log('Закрываем модальное окно заказа');
+    // Добавьте логику закрытия модального окна
   };
 
   const price = useMemo(
@@ -51,4 +53,6 @@ export const BurgerConstructor: FC = () => {
       closeOrderModal={closeOrderModal}
     />
   );
+
+  // return null;
 };
