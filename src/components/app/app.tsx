@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   BrowserRouter as Router,
   Route,
   Routes,
-  useLocation
+  useLocation,
+  useNavigate
 } from 'react-router-dom';
 import '../../index.css';
 import styles from './app.module.css';

@@ -3,8 +3,8 @@ import { Button } from '@zlden/react-developer-burger-ui-components';
 import styles from '../common.module.css';
 import { Link } from 'react-router-dom';
 import { LoginUIProps } from './type';
-import { CustomInput as Input } from '../../../CustomInput'; // Импортируем CustomInput
-import { CustomPasswordInput as PasswordInput } from '../../../CustomPasswordInput'; // Импортируем CustomPasswordInput
+import { CustomInput as Input } from '../../../CustomInput';
+import { CustomPasswordInput as PasswordInput } from '../../../CustomPasswordInput';
 
 export const LoginUI: FC<LoginUIProps> = ({
   email,

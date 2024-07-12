@@ -1,11 +1,14 @@
+// src/pages/constructor-page/constructor-page.tsx
+
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from '../../services/store';
 import { fetchIngredients } from '../../services/slices/ingredientsSlice';
 import styles from './constructor-page.module.css';
-import { BurgerIngredients } from '../../components/burger-ingredients';
-import { BurgerConstructor } from '../../components';
-import { Preloader } from '../../components/ui';
+import { BurgerIngredients } from '../../components/ui/burger-ingredients/burger-ingredients';
+import { BurgerConstructor } from '../../components/burger-constructor/burger-constructor';
+import { Preloader } from '../../components/ui/preloader/preloader';
 import { FC } from 'react';
+import React from 'react';
 
 export const ConstructorPage: FC = () => {
   const dispatch = useDispatch();
@@ -21,6 +24,8 @@ export const ConstructorPage: FC = () => {
     <>
       {isLoading ? (
         <Preloader />
+      ) : hasError ? (
+        <p>Ошибка загрузки данных</p>
       ) : (
         <main className={styles.containerMain}>
           <h1
@@ -29,7 +34,19 @@ export const ConstructorPage: FC = () => {
             Соберите бургер
           </h1>
           <div className={`${styles.main} pl-5 pr-5`}>
-            <BurgerIngredients items={items} />
+            <BurgerIngredients
+              currentTab='bun'
+              buns={items.filter((item) => item.type === 'bun')}
+              mains={items.filter((item) => item.type === 'main')}
+              sauces={items.filter((item) => item.type === 'sauce')}
+              titleBunRef={React.createRef()}
+              titleMainRef={React.createRef()}
+              titleSaucesRef={React.createRef()}
+              bunsRef={React.createRef()}
+              mainsRef={React.createRef()}
+              saucesRef={React.createRef()}
+              onTabClick={(tab: string) => console.log(`Tab clicked: ${tab}`)}
+            />
             <BurgerConstructor />
           </div>
         </main>

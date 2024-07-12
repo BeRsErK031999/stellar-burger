@@ -31,9 +31,27 @@ export type TOrdersData = {
   total: number;
   totalToday: number;
 };
-
 export type TUser = {
+  user(user: any): { payload: TUser; type: 'user/loginSuccess' };
   email: string;
+  name: string;
+};
+
+export type TAuthResponse = {
+  success: boolean;
+  accessToken: string;
+  refreshToken: string;
+  user: TUser;
+};
+
+export type TLoginData = {
+  email: string;
+  password: string;
+};
+
+export type TRegisterData = {
+  email: string;
+  password: string;
   name: string;
 };
 

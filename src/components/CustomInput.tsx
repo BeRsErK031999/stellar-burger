@@ -12,14 +12,18 @@ interface CustomInputProps {
   errorText: string;
   size: 'default' | 'small';
   icon?: keyof TICons;
-  onPointerEnterCapture?: () => void;
-  onPointerLeaveCapture?: () => void;
+  onPointerEnterCapture?: (e: React.PointerEvent<HTMLInputElement>) => void;
+  onPointerLeaveCapture?: (e: React.PointerEvent<HTMLInputElement>) => void;
 }
 
-export const CustomInput: FC<CustomInputProps> = (props) => (
-  <OriginalInput
-    {...props}
-    onPointerEnterCapture={props.onPointerEnterCapture || (() => {})}
-    onPointerLeaveCapture={props.onPointerLeaveCapture || (() => {})}
-  />
-);
+export const CustomInput: FC<CustomInputProps> = (props) => {
+  const { onPointerEnterCapture, onPointerLeaveCapture, ...restProps } = props;
+  const extraProps: any = {};
+
+  if (onPointerEnterCapture)
+    extraProps.onPointerEnterCapture = onPointerEnterCapture;
+  if (onPointerLeaveCapture)
+    extraProps.onPointerLeaveCapture = onPointerLeaveCapture;
+
+  return <OriginalInput {...restProps} {...extraProps} />;
+};
