@@ -1,3 +1,4 @@
+// src/components/ui/pages/profile/profile.tsx
 import { FC, ChangeEvent } from 'react';
 import { Button } from '@zlden/react-developer-burger-ui-components';
 import styles from './profile.module.css';

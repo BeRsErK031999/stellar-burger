@@ -1,20 +1,19 @@
-import { FC, ReactNode } from 'react';
-import { Navigate, useLocation } from 'react-router-dom';
-import { useSelector } from '../services/store';
+// src/pages/PrivateRoute.tsx
+import { useSelector } from 'react-redux';
+import { Navigate, RouteProps } from 'react-router-dom';
+import { RootState } from '../services/store';
+import { FC } from 'react';
 
-interface PrivateRouteProps {
-  children: ReactNode;
-}
-
-const PrivateRoute: FC<PrivateRouteProps> = ({ children }) => {
-  const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
-  const location = useLocation();
-
-  return isAuthenticated ? (
-    <>{children}</>
-  ) : (
-    <Navigate to='/login' state={{ from: location }} />
+const PrivateRoute: FC<RouteProps> = ({ children }) => {
+  const isAuthenticated = useSelector(
+    (state: RootState) => state.user.isAuthenticated
   );
+
+  if (!isAuthenticated) {
+    return <Navigate to='/login' replace />;
+  }
+
+  return <>{children}</>;
 };
 
 export default PrivateRoute;

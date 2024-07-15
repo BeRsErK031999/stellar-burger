@@ -1,10 +1,15 @@
+// src/utils/burger-api.ts
 import { setCookie, getCookie } from './cookie';
 import { TIngredient, TOrder, TUser } from './types';
 
 const URL = process.env.BURGER_API_URL;
 
 const checkResponse = <T>(res: Response): Promise<T> =>
-  res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
+  res.ok
+    ? res.json()
+    : res
+        .json()
+        .then((err) => Promise.reject({ ...err, statusCode: res.status }));
 
 type TServerResponse<T> = {
   success: boolean;
@@ -28,8 +33,10 @@ export const refreshToken = (): Promise<TRefreshResponse> =>
     .then((res) => checkResponse<TRefreshResponse>(res))
     .then((refreshData) => {
       if (!refreshData.success) {
+        console.error('Failed to refresh token:', refreshData);
         return Promise.reject(refreshData);
       }
+      console.log('Token refreshed successfully:', refreshData);
       localStorage.setItem('refreshToken', refreshData.refreshToken);
       setCookie('accessToken', refreshData.accessToken);
       return refreshData;
@@ -49,9 +56,11 @@ export const fetchWithRefresh = async <T>(
         (options.headers as { [key: string]: string }).authorization =
           refreshData.accessToken;
       }
+      console.log('Retrying request with new token:', refreshData.accessToken);
       const res = await fetch(url, options);
       return await checkResponse<T>(res);
     } else {
+      console.error('Request failed:', err);
       return Promise.reject(err);
     }
   }
@@ -170,10 +179,12 @@ export const loginUserApi = async (
   });
   const result = await checkResponse<TAuthResponse>(response);
   if (result.success) {
+    console.log('Login successful:', result);
     setCookie('accessToken', result.accessToken);
     localStorage.setItem('refreshToken', result.refreshToken);
     return result;
   } else {
+    console.error('Failed to login:', result);
     throw new Error('Failed to login');
   }
 };
@@ -206,16 +217,21 @@ export const resetPasswordApi = (data: { password: string; token: string }) =>
       return Promise.reject(data);
     });
 
-type TUserResponse = TServerResponse<{ user: TUser }>;
+export type TUserResponse = TServerResponse<{ user: TUser }>;
 
-export const getUserApi = () =>
+export const getUserApi = (): Promise<TUserResponse> =>
   fetchWithRefresh<TUserResponse>(`${URL}/auth/user`, {
     headers: {
       authorization: getCookie('accessToken') ?? ''
     }
+  }).then((data) => {
+    console.log('Fetched user data:', data);
+    return data;
   });
 
-export const updateUserApi = (user: Partial<TRegisterData>) =>
+export const updateUserApi = (
+  user: Partial<TRegisterData>
+): Promise<TUserResponse> =>
   fetchWithRefresh<TUserResponse>(`${URL}/auth/user`, {
     method: 'PATCH',
     headers: {
@@ -223,6 +239,9 @@ export const updateUserApi = (user: Partial<TRegisterData>) =>
       authorization: getCookie('accessToken') ?? ''
     },
     body: JSON.stringify(user)
+  }).then((data) => {
+    console.log('Updated user data:', data);
+    return data;
   });
 
 export const logoutApi = () =>
@@ -234,4 +253,9 @@ export const logoutApi = () =>
     body: JSON.stringify({
       token: localStorage.getItem('refreshToken')
     })
-  }).then((res) => checkResponse<TServerResponse<{}>>(res));
+  })
+    .then((res) => checkResponse<TServerResponse<{}>>(res))
+    .then((data) => {
+      console.log('Logged out successfully:', data);
+      return data;
+    });

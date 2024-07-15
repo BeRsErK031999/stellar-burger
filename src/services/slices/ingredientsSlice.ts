@@ -9,12 +9,14 @@ interface IngredientsState {
   items: TIngredient[];
   isLoading: boolean;
   hasError: boolean;
+  selectedIngredient: TIngredient | null; // Добавлено свойство
 }
 
 const initialState: IngredientsState = {
   items: [],
   isLoading: false,
-  hasError: false
+  hasError: false,
+  selectedIngredient: null // Инициализация
 };
 
 const ingredientsSlice = createSlice({
@@ -33,6 +35,12 @@ const ingredientsSlice = createSlice({
     getIngredientsFailed: (state) => {
       state.isLoading = false;
       state.hasError = true;
+    },
+    setSelectedIngredient: (
+      state,
+      action: PayloadAction<TIngredient | null>
+    ) => {
+      state.selectedIngredient = action.payload;
     }
   }
 });
@@ -40,7 +48,8 @@ const ingredientsSlice = createSlice({
 export const {
   getIngredientsRequest,
   getIngredientsSuccess,
-  getIngredientsFailed
+  getIngredientsFailed,
+  setSelectedIngredient // Добавлено действие
 } = ingredientsSlice.actions;
 
 export const fetchIngredients = (): AppThunk => async (dispatch) => {

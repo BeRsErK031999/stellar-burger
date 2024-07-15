@@ -1,11 +1,15 @@
+// src/services/slices/userSlice.ts
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { AppThunk } from '../store';
+import { AppThunk, RootState } from '../store';
 import {
   loginUserApi,
   registerUserApi,
+  updateUserApi,
+  getUserApi,
   TLoginData,
   TRegisterData,
-  TAuthResponse
+  TAuthResponse,
+  TUserResponse
 } from '../../utils/burger-api';
 import { TUser } from '../../utils/types';
 
@@ -33,7 +37,7 @@ const userSlice = createSlice({
     },
     loginSuccess: (state, action: PayloadAction<TUser>) => {
       state.user = action.payload;
-      state.isAuthenticated = true;
+      state.isAuthenticated = true; // Убедитесь, что состояние обновляется
       state.isLoading = false;
       state.hasError = false;
     },
@@ -47,11 +51,38 @@ const userSlice = createSlice({
     },
     registerSuccess: (state, action: PayloadAction<TUser>) => {
       state.user = action.payload;
-      state.isAuthenticated = true;
+      state.isAuthenticated = true; // Убедитесь, что состояние обновляется
       state.isLoading = false;
       state.hasError = false;
     },
     registerFailed: (state) => {
+      state.isLoading = false;
+      state.hasError = true;
+    },
+    updateUserRequest: (state) => {
+      state.isLoading = true;
+      state.hasError = false;
+    },
+    updateUserSuccess: (state, action: PayloadAction<TUser>) => {
+      state.user = action.payload;
+      state.isLoading = false;
+      state.hasError = false;
+    },
+    updateUserFailed: (state) => {
+      state.isLoading = false;
+      state.hasError = true;
+    },
+    fetchUserRequest: (state) => {
+      state.isLoading = true;
+      state.hasError = false;
+    },
+    fetchUserSuccess: (state, action: PayloadAction<TUser>) => {
+      state.user = action.payload;
+      state.isAuthenticated = true; // Убедитесь, что состояние обновляется
+      state.isLoading = false;
+      state.hasError = false;
+    },
+    fetchUserFailed: (state) => {
       state.isLoading = false;
       state.hasError = true;
     },
@@ -69,10 +100,16 @@ export const {
   registerRequest,
   registerSuccess,
   registerFailed,
+  updateUserRequest,
+  updateUserSuccess,
+  updateUserFailed,
+  fetchUserRequest,
+  fetchUserSuccess,
+  fetchUserFailed,
   logout
 } = userSlice.actions;
 
-const loginUser =
+export const loginUser =
   (data: TLoginData): AppThunk =>
   async (dispatch) => {
     dispatch(loginRequest());
@@ -84,7 +121,7 @@ const loginUser =
     }
   };
 
-const registerUser =
+export const registerUser =
   (data: TRegisterData): AppThunk =>
   async (dispatch) => {
     dispatch(registerRequest());
@@ -96,6 +133,26 @@ const registerUser =
     }
   };
 
-export { loginUser, registerUser };
+export const updateUser =
+  (data: Partial<TRegisterData>): AppThunk =>
+  async (dispatch) => {
+    dispatch(updateUserRequest());
+    try {
+      const response: TUserResponse = await updateUserApi(data);
+      dispatch(updateUserSuccess(response.user));
+    } catch (error) {
+      dispatch(updateUserFailed());
+    }
+  };
+
+export const fetchUser = (): AppThunk => async (dispatch) => {
+  dispatch(fetchUserRequest());
+  try {
+    const response: TUserResponse = await getUserApi();
+    dispatch(fetchUserSuccess(response.user));
+  } catch (error) {
+    dispatch(fetchUserFailed());
+  }
+};
 
 export default userSlice.reducer;

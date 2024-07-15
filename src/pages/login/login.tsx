@@ -1,4 +1,5 @@
-import { FC, SyntheticEvent, useState } from 'react';
+// src/pages/login/login.tsx
+import { FC, SyntheticEvent, useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { LoginUI } from '@ui-pages';
@@ -14,13 +15,16 @@ export const Login: FC = () => {
     (state: RootState) => state.user
   );
 
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate('/profile'); // Перенаправление после успешного входа
+    }
+  }, [isAuthenticated, navigate]);
+
   const handleSubmit = async (e: SyntheticEvent) => {
     e.preventDefault();
     try {
       await dispatch(loginUser({ email, password }) as any);
-      if (isAuthenticated) {
-        navigate('/');
-      }
     } catch (error) {
       console.error('Login failed:', error);
     }

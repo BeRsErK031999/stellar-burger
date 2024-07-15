@@ -1,8 +1,11 @@
-import { FC, useMemo } from 'react';
+import { FC, useState, useMemo } from 'react';
 import { useSelector, useDispatch } from '../../services/store';
 import { TConstructorIngredient } from '@utils-types';
 import { BurgerConstructorUI } from '@ui';
 import { useNavigate } from 'react-router-dom';
+import { setSelectedIngredient } from '../../services/slices/ingredientsSlice';
+import { Modal } from '../modal';
+import IngredientDetails from '../ingredient-details/ingredient-details';
 
 const selectConstructorItems = (state: { constructorItems: any }) =>
   state.constructorItems;
@@ -11,6 +14,9 @@ const selectOrderRequest = (state: { order: { orderRequest: any } }) =>
 const selectUser = (state: { user: { user: any } }) => state.user.user;
 const selectOrderModalData = (state: { order: { orderModalData: any } }) =>
   state.order.orderModalData;
+const selectSelectedIngredient = (state: {
+  ingredients: { selectedIngredient: any };
+}) => state.ingredients.selectedIngredient;
 
 export const BurgerConstructor: FC = () => {
   const dispatch = useDispatch();
@@ -19,6 +25,19 @@ export const BurgerConstructor: FC = () => {
   const orderRequest = useSelector(selectOrderRequest);
   const user = useSelector(selectUser);
   const orderModalData = useSelector(selectOrderModalData);
+  const selectedIngredient = useSelector(selectSelectedIngredient);
+
+  const [isIngredientModalOpen, setIsIngredientModalOpen] = useState(false);
+
+  const onIngredientClick = (ingredient: TConstructorIngredient) => {
+    dispatch(setSelectedIngredient(ingredient));
+    setIsIngredientModalOpen(true);
+  };
+
+  const closeIngredientModal = () => {
+    setIsIngredientModalOpen(false);
+    dispatch(setSelectedIngredient(null));
+  };
 
   const onOrderClick = () => {
     if (!user) {
@@ -26,11 +45,11 @@ export const BurgerConstructor: FC = () => {
       return;
     }
     if (!constructorItems.bun || orderRequest) return;
-    // Добавьте логику создания заказа
+    // Add logic for creating an order
   };
 
   const closeOrderModal = () => {
-    // Добавьте логику закрытия модального окна
+    // Add logic for closing order modal
   };
 
   const price = useMemo(
@@ -44,15 +63,21 @@ export const BurgerConstructor: FC = () => {
   );
 
   return (
-    <BurgerConstructorUI
-      price={price}
-      orderRequest={orderRequest}
-      constructorItems={constructorItems}
-      orderModalData={orderModalData}
-      onOrderClick={onOrderClick}
-      closeOrderModal={closeOrderModal}
-    />
+    <div>
+      <BurgerConstructorUI
+        price={price}
+        orderRequest={orderRequest}
+        constructorItems={constructorItems}
+        orderModalData={orderModalData}
+        onOrderClick={onOrderClick}
+        closeOrderModal={closeOrderModal}
+        onIngredientClick={onIngredientClick}
+      />
+      {isIngredientModalOpen && (
+        <Modal title='Ingredient Details' onClose={closeIngredientModal}>
+          <IngredientDetails />
+        </Modal>
+      )}
+    </div>
   );
-
-  // return null;
 };

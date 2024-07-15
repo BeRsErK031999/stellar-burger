@@ -16,7 +16,8 @@ export const BurgerConstructorUI: FC<BurgerConstructorUIProps> = ({
   price,
   orderModalData,
   onOrderClick,
-  closeOrderModal
+  closeOrderModal,
+  onIngredientClick // добавьте onIngredientClick в пропсы
 }) => (
   <section className={styles.burger_constructor}>
     {constructorItems.bun ? (
@@ -40,12 +41,17 @@ export const BurgerConstructorUI: FC<BurgerConstructorUIProps> = ({
       {constructorItems.ingredients.length > 0 ? (
         constructorItems.ingredients.map(
           (item: TConstructorIngredient, index: number) => (
-            <BurgerConstructorElement
-              ingredient={item}
-              index={index}
-              totalItems={constructorItems.ingredients.length}
+            <div
               key={item.id}
-            />
+              onClick={() => onIngredientClick(item)} // передайте onIngredientClick
+            >
+              <BurgerConstructorElement
+                ingredient={item}
+                index={index}
+                totalItems={constructorItems.ingredients.length}
+                key={item.id}
+              />
+            </div>
           )
         )
       ) : (
