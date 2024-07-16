@@ -1,6 +1,7 @@
 // src/components/ui/burger-ingredients/burger-ingredients.tsx
 
 import React, { FC } from 'react';
+import { Link } from 'react-router-dom';
 import { TIngredient, TTabMode } from '@utils-types';
 import styles from './burger-ingredients.module.css';
 
@@ -64,7 +65,11 @@ export const BurgerIngredients: FC<BurgerIngredientsProps> = ({
       <h2 ref={titleBunRef}>Булки</h2>
       <div ref={bunsRef} className={styles.ingredientsGrid}>
         {buns.map((bun) => (
-          <div key={bun._id} className={styles.ingredientCard}>
+          <Link
+            key={bun._id}
+            to={`/ingredients/${bun._id}`}
+            className={styles.ingredientCard}
+          >
             <img
               src={bun.image}
               alt={bun.name}
@@ -73,13 +78,17 @@ export const BurgerIngredients: FC<BurgerIngredientsProps> = ({
             <p className={styles.price}>{bun.price}</p>
             <p className={styles.ingredientName}>{bun.name}</p>
             <button className={styles.addButton}>+ Добавить</button>
-          </div>
+          </Link>
         ))}
       </div>
       <h2 ref={titleMainRef}>Начинки</h2>
       <div ref={mainsRef} className={styles.ingredientsGrid}>
         {mains.map((main) => (
-          <div key={main._id} className={styles.ingredientCard}>
+          <Link
+            key={main._id}
+            to={`/ingredients/${main._id}`}
+            className={styles.ingredientCard}
+          >
             <img
               src={main.image}
               alt={main.name}
@@ -88,13 +97,17 @@ export const BurgerIngredients: FC<BurgerIngredientsProps> = ({
             <p className={styles.price}>{main.price}</p>
             <p className={styles.ingredientName}>{main.name}</p>
             <button className={styles.addButton}>+ Добавить</button>
-          </div>
+          </Link>
         ))}
       </div>
       <h2 ref={titleSaucesRef}>Соусы</h2>
       <div ref={saucesRef} className={styles.ingredientsGrid}>
         {sauces.map((sauce) => (
-          <div key={sauce._id} className={styles.ingredientCard}>
+          <Link
+            key={sauce._id}
+            to={`/ingredients/${sauce._id}`}
+            className={styles.ingredientCard}
+          >
             <img
               src={sauce.image}
               alt={sauce.name}
@@ -103,7 +116,7 @@ export const BurgerIngredients: FC<BurgerIngredientsProps> = ({
             <p className={styles.price}>{sauce.price}</p>
             <p className={styles.ingredientName}>{sauce.name}</p>
             <button className={styles.addButton}>+ Добавить</button>
-          </div>
+          </Link>
         ))}
       </div>
     </div>

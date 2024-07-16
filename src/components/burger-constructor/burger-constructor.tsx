@@ -1,10 +1,12 @@
+// src/components/burger-constructor/burger-constructor.tsx
+
 import { FC, useState, useMemo } from 'react';
 import { useSelector, useDispatch } from '../../services/store';
-import { TConstructorIngredient } from '@utils-types';
+import { TConstructorIngredient, TIngredient } from '@utils-types';
 import { BurgerConstructorUI } from '@ui';
 import { useNavigate } from 'react-router-dom';
 import { setSelectedIngredient } from '../../services/slices/ingredientsSlice';
-import { Modal } from '../modal';
+import { ModalWrapper } from '../modal/modal';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 
 const selectConstructorItems = (state: { constructorItems: any }) =>
@@ -15,7 +17,7 @@ const selectUser = (state: { user: { user: any } }) => state.user.user;
 const selectOrderModalData = (state: { order: { orderModalData: any } }) =>
   state.order.orderModalData;
 const selectSelectedIngredient = (state: {
-  ingredients: { selectedIngredient: any };
+  ingredients: { selectedIngredient: TIngredient | null };
 }) => state.ingredients.selectedIngredient;
 
 export const BurgerConstructor: FC = () => {
@@ -73,10 +75,10 @@ export const BurgerConstructor: FC = () => {
         closeOrderModal={closeOrderModal}
         onIngredientClick={onIngredientClick}
       />
-      {isIngredientModalOpen && (
-        <Modal title='Ingredient Details' onClose={closeIngredientModal}>
-          <IngredientDetails />
-        </Modal>
+      {isIngredientModalOpen && selectedIngredient && (
+        <ModalWrapper title='Ingredient Details' onClose={closeIngredientModal}>
+          <IngredientDetails ingredient={selectedIngredient} />
+        </ModalWrapper>
       )}
     </div>
   );

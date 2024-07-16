@@ -1,5 +1,3 @@
-// src/services/slices/ingredientsSlice.ts
-
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AppThunk } from '../store';
 import { getIngredientsApi } from '../../utils/burger-api';
@@ -9,14 +7,14 @@ interface IngredientsState {
   items: TIngredient[];
   isLoading: boolean;
   hasError: boolean;
-  selectedIngredient: TIngredient | null; // Добавлено свойство
+  selectedIngredient: TIngredient | null;
 }
 
 const initialState: IngredientsState = {
   items: [],
   isLoading: false,
   hasError: false,
-  selectedIngredient: null // Инициализация
+  selectedIngredient: null
 };
 
 const ingredientsSlice = createSlice({
@@ -49,7 +47,7 @@ export const {
   getIngredientsRequest,
   getIngredientsSuccess,
   getIngredientsFailed,
-  setSelectedIngredient // Добавлено действие
+  setSelectedIngredient
 } = ingredientsSlice.actions;
 
 export const fetchIngredients = (): AppThunk => async (dispatch) => {

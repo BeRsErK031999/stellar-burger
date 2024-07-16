@@ -9,8 +9,7 @@ import {
   useDispatch as dispatchHook,
   useSelector as selectorHook
 } from 'react-redux';
-import { ThunkAction, ThunkDispatch } from '@reduxjs/toolkit';
-import { thunk } from 'redux-thunk';
+import { thunk, ThunkAction, ThunkDispatch } from 'redux-thunk';
 import ingredientsReducer from './slices/ingredientsSlice';
 import constructorItemsReducer from './slices/constructorItemsSlice';
 import userReducer from './slices/userSlice';

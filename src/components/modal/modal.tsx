@@ -1,5 +1,6 @@
 import { FC, memo, useEffect } from 'react';
 import ReactDOM from 'react-dom';
+import styles from './modal.module.css';
 
 import { TModalProps } from './type';
 import { ModalUI } from '@ui';
@@ -29,3 +30,5 @@ export const ModalWrapper: FC<TModalProps> = memo(
     );
   }
 );
+
+export default ModalWrapper;
