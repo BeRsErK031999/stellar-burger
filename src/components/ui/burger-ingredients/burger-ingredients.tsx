@@ -1,9 +1,10 @@
-// src/components/ui/burger-ingredients/burger-ingredients.tsx
-
 import React, { FC } from 'react';
-import { Link } from 'react-router-dom';
+import { useDispatch } from '../../../services/store';
+import { Link, useLocation } from 'react-router-dom';
 import { TIngredient, TTabMode } from '@utils-types';
 import styles from './burger-ingredients.module.css';
+import { addIngredient } from '../../../services/slices/orderSlice';
+import { setSelectedIngredient } from '../../../services/slices/ingredientsSlice';
 
 interface BurgerIngredientsProps {
   currentTab: TTabMode;
@@ -31,94 +32,128 @@ export const BurgerIngredients: FC<BurgerIngredientsProps> = ({
   mainsRef,
   saucesRef,
   onTabClick
-}) => (
-  <div className={styles.burger_ingredients}>
-    <nav>
-      <ul className={styles.menu}>
-        <li>
-          <button
-            onClick={() => onTabClick('bun')}
-            className={`${styles.tab} ${currentTab === 'bun' ? styles.active : ''}`}
-          >
-            Булки
-          </button>
-        </li>
-        <li>
-          <button
-            onClick={() => onTabClick('main')}
-            className={`${styles.tab} ${currentTab === 'main' ? styles.active : ''}`}
-          >
-            Начинки
-          </button>
-        </li>
-        <li>
-          <button
-            onClick={() => onTabClick('sauce')}
-            className={`${styles.tab} ${currentTab === 'sauce' ? styles.active : ''}`}
-          >
-            Соусы
-          </button>
-        </li>
-      </ul>
-    </nav>
-    <div className={styles.content}>
-      <h2 ref={titleBunRef}>Булки</h2>
-      <div ref={bunsRef} className={styles.ingredientsGrid}>
-        {buns.map((bun) => (
-          <Link
-            key={bun._id}
-            to={`/ingredients/${bun._id}`}
-            className={styles.ingredientCard}
-          >
-            <img
-              src={bun.image}
-              alt={bun.name}
-              className={styles.ingredientImage}
-            />
-            <p className={styles.price}>{bun.price}</p>
-            <p className={styles.ingredientName}>{bun.name}</p>
-            <button className={styles.addButton}>+ Добавить</button>
-          </Link>
-        ))}
-      </div>
-      <h2 ref={titleMainRef}>Начинки</h2>
-      <div ref={mainsRef} className={styles.ingredientsGrid}>
-        {mains.map((main) => (
-          <Link
-            key={main._id}
-            to={`/ingredients/${main._id}`}
-            className={styles.ingredientCard}
-          >
-            <img
-              src={main.image}
-              alt={main.name}
-              className={styles.ingredientImage}
-            />
-            <p className={styles.price}>{main.price}</p>
-            <p className={styles.ingredientName}>{main.name}</p>
-            <button className={styles.addButton}>+ Добавить</button>
-          </Link>
-        ))}
-      </div>
-      <h2 ref={titleSaucesRef}>Соусы</h2>
-      <div ref={saucesRef} className={styles.ingredientsGrid}>
-        {sauces.map((sauce) => (
-          <Link
-            key={sauce._id}
-            to={`/ingredients/${sauce._id}`}
-            className={styles.ingredientCard}
-          >
-            <img
-              src={sauce.image}
-              alt={sauce.name}
-              className={styles.ingredientImage}
-            />
-            <p className={styles.price}>{sauce.price}</p>
-            <p className={styles.ingredientName}>{sauce.name}</p>
-            <button className={styles.addButton}>+ Добавить</button>
-          </Link>
-        ))}
+}) => {
+  const dispatch = useDispatch();
+  const location = useLocation();
+
+  const handleAddToOrder = (ingredient: TIngredient) => {
+    dispatch(addIngredient(ingredient));
+  };
+
+  const handleImageClick = (ingredient: TIngredient) => {
+    dispatch(setSelectedIngredient(ingredient));
+  };
+
+  return (
+    <div className={styles.burger_ingredients}>
+      <nav>
+        <ul className={styles.menu}>
+          <li>
+            <button
+              onClick={() => onTabClick('bun')}
+              className={`${styles.tab} ${currentTab === 'bun' ? styles.active : ''}`}
+            >
+              Булки
+            </button>
+          </li>
+          <li>
+            <button
+              onClick={() => onTabClick('main')}
+              className={`${styles.tab} ${currentTab === 'main' ? styles.active : ''}`}
+            >
+              Начинки
+            </button>
+          </li>
+          <li>
+            <button
+              onClick={() => onTabClick('sauce')}
+              className={`${styles.tab} ${currentTab === 'sauce' ? styles.active : ''}`}
+            >
+              Соусы
+            </button>
+          </li>
+        </ul>
+      </nav>
+      <div className={styles.content}>
+        <h2 ref={titleBunRef}>Булки</h2>
+        <div ref={bunsRef} className={styles.ingredientsGrid}>
+          {buns.map((bun) => (
+            <div key={bun._id} className={styles.ingredientCard}>
+              <Link
+                to={`/ingredients/${bun._id}`}
+                state={{ background: location }}
+                onClick={() => handleImageClick(bun)}
+              >
+                <img
+                  src={bun.image}
+                  alt={bun.name}
+                  className={styles.ingredientImage}
+                />
+              </Link>
+              <p className={styles.price}>{bun.price}</p>
+              <p className={styles.ingredientName}>{bun.name}</p>
+              <button
+                className={styles.addButton}
+                onClick={() => handleAddToOrder(bun)}
+              >
+                + Добавить
+              </button>
+            </div>
+          ))}
+        </div>
+        <h2 ref={titleMainRef}>Начинки</h2>
+        <div ref={mainsRef} className={styles.ingredientsGrid}>
+          {mains.map((main) => (
+            <div key={main._id} className={styles.ingredientCard}>
+              <Link
+                to={`/ingredients/${main._id}`}
+                state={{ background: location }}
+                onClick={() => handleImageClick(main)}
+              >
+                <img
+                  src={main.image}
+                  alt={main.name}
+                  className={styles.ingredientImage}
+                />
+              </Link>
+              <p className={styles.price}>{main.price}</p>
+              <p className={styles.ingredientName}>{main.name}</p>
+              <button
+                className={styles.addButton}
+                onClick={() => handleAddToOrder(main)}
+              >
+                + Добавить
+              </button>
+            </div>
+          ))}
+        </div>
+        <h2 ref={titleSaucesRef}>Соусы</h2>
+        <div ref={saucesRef} className={styles.ingredientsGrid}>
+          {sauces.map((sauce) => (
+            <div key={sauce._id} className={styles.ingredientCard}>
+              <Link
+                to={`/ingredients/${sauce._id}`}
+                state={{ background: location }}
+                onClick={() => handleImageClick(sauce)}
+              >
+                <img
+                  src={sauce.image}
+                  alt={sauce.name}
+                  className={styles.ingredientImage}
+                />
+              </Link>
+              <p className={styles.price}>{sauce.price}</p>
+              <p className={styles.ingredientName}>{sauce.name}</p>
+              <button
+                className={styles.addButton}
+                onClick={() => handleAddToOrder(sauce)}
+              >
+                + Добавить
+              </button>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
-  </div>
-);
+  );
+};

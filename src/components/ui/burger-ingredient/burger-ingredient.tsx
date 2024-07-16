@@ -11,6 +11,7 @@ import {
 import { TBurgerIngredientUIProps } from './type';
 import { useDispatch } from '../../../services/store';
 import { setSelectedIngredient } from '../../../services/slices/ingredientsSlice';
+import { addIngredient } from '../../../services/slices/orderSlice';
 
 export const BurgerIngredientUI: FC<TBurgerIngredientUIProps> = memo(
   ({ ingredient, count, handleAdd }) => {
@@ -18,28 +19,36 @@ export const BurgerIngredientUI: FC<TBurgerIngredientUIProps> = memo(
     const dispatch = useDispatch();
     const { image, price, name, _id } = ingredient;
 
-    const handleClick = () => {
+    const handleImageClick = () => {
       dispatch(setSelectedIngredient(ingredient));
     };
 
+    const handleAddToOrder = (
+      e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+    ) => {
+      e.stopPropagation(); // предотвращает переход по ссылке
+      dispatch(addIngredient(ingredient));
+    };
+
     return (
-      <li className={styles.container} onClick={handleClick}>
+      <li className={styles.container}>
         <Link
           className={styles.article}
           to={`/ingredients/${_id}`}
           state={{ background: location }}
+          onClick={handleImageClick}
         >
           {count && <Counter count={count} />}
           <img className={styles.img} src={image} alt='картинка ингредиента.' />
-          <div className={`${styles.cost} mt-2 mb-2`}>
-            <p className='text text_type_digits-default mr-2'>{price}</p>
-            <CurrencyIcon type='primary' />
-          </div>
-          <p className={`text text_type_main-default ${styles.text}`}>{name}</p>
         </Link>
+        <div className={`${styles.cost} mt-2 mb-2`}>
+          <p className='text text_type_digits-default mr-2'>{price}</p>
+          <CurrencyIcon type='primary' />
+        </div>
+        <p className={`text text_type_main-default ${styles.text}`}>{name}</p>
         <AddButton
           text='Добавить'
-          onClick={handleAdd}
+          onClick={handleAddToOrder as any}
           extraClass={`${styles.addButton} mt-8`}
         />
       </li>

@@ -27,4 +27,9 @@
 .addButton {
   width: 260px;
   justify-content: center;
+  cursor: pointer;
+}
+
+.img {
+  cursor: pointer;
 }
