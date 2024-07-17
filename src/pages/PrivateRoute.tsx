@@ -1,4 +1,3 @@
-// src/pages/PrivateRoute.tsx
 import { useSelector } from 'react-redux';
 import { Navigate, RouteProps } from 'react-router-dom';
 import { RootState } from '../services/store';

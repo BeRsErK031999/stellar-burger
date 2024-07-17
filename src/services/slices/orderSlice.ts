@@ -7,13 +7,15 @@ interface OrderState {
   ingredients: TConstructorIngredient[];
   orderRequest: boolean;
   orderModalData: any | null;
+  orderNumber: string | null; // Добавлено
 }
 
 const initialState: OrderState = {
   bun: null,
   ingredients: [],
   orderRequest: false,
-  orderModalData: null
+  orderModalData: null,
+  orderNumber: null // Добавлено
 };
 
 const orderSlice = createSlice({
@@ -42,6 +44,10 @@ const orderSlice = createSlice({
     setOrderModalData: (state, action: PayloadAction<any>) => {
       state.orderModalData = action.payload;
     },
+    setOrderNumber: (state, action: PayloadAction<string>) => {
+      // Добавлено
+      state.orderNumber = action.payload;
+    },
     moveIngredientUp: (state, action: PayloadAction<number>) => {
       const index = action.payload;
       if (index > 0) {
@@ -67,6 +73,7 @@ export const {
   clearOrder,
   setOrderRequest,
   setOrderModalData,
+  setOrderNumber, // Добавлено
   moveIngredientUp,
   moveIngredientDown
 } = orderSlice.actions;

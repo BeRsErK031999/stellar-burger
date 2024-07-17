@@ -1,4 +1,3 @@
-// src/services/slices/userSlice.ts
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AppThunk, RootState } from '../store';
 import {

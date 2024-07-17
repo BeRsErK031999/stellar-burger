@@ -10,9 +10,12 @@ import { RootState } from '../../services/store';
 import {
   removeIngredient,
   moveIngredientUp,
-  moveIngredientDown
+  moveIngredientDown,
+  setOrderRequest,
+  setOrderNumber
 } from '../../services/slices/orderSlice';
 import styles from './burger-constructor.module.css';
+import { getCookie } from '../../utils/cookie'; // Импорт функции для получения токена
 
 const selectOrderRequest = (state: RootState) => state.order.orderRequest;
 const selectUser = (state: RootState) => state.user.user;
@@ -26,7 +29,7 @@ export const BurgerConstructor: FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const orderRequest = useSelector(selectOrderRequest);
-  const user = useSelector(selectUser);
+  const user = useSelector(selectUser); // Используйте selectUser
   const orderModalData = useSelector(selectOrderModalData);
   const selectedIngredient = useSelector(selectSelectedIngredient);
   const bun = useSelector(selectOrderBun) as TConstructorIngredient | null;
@@ -46,13 +49,45 @@ export const BurgerConstructor: FC = () => {
     dispatch(setSelectedIngredient(null));
   };
 
-  const onOrderClick = () => {
+  const onOrderClick = async () => {
     if (!user) {
+      // Проверяем, авторизован ли пользователь
       navigate('/login');
       return;
     }
     if (!bun || orderRequest) return;
-    // Add logic for creating an order
+
+    dispatch(setOrderRequest(true));
+
+    // Пример запроса к бэкенду для оформления заказа
+    try {
+      const response = await fetch(
+        'https://norma.nomoreparties.space/api/orders',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: getCookie('accessToken') ?? '' // Добавление токена доступа в заголовок
+          },
+          body: JSON.stringify({
+            ingredients: [bun, ...ingredients].map(
+              (ingredient) => ingredient._id
+            )
+          })
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      dispatch(setOrderNumber(data.order.number));
+    } catch (error) {
+      console.error('Ошибка при оформлении заказа:', error);
+    } finally {
+      dispatch(setOrderRequest(false));
+    }
   };
 
   const closeOrderModal = () => {

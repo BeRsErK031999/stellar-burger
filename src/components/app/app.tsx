@@ -22,6 +22,7 @@ import {
   fetchIngredients,
   setSelectedIngredient
 } from '../../services/slices/ingredientsSlice';
+import { fetchUser } from '../../services/slices/userSlice'; // Импортируем экшен для получения данных пользователя
 import { RootState } from '../../services/store';
 
 const App = () => {
@@ -36,6 +37,7 @@ const App = () => {
 
   useEffect(() => {
     dispatch(fetchIngredients());
+    dispatch(fetchUser()); // Запрашиваем данные пользователя при инициализации приложения
   }, [dispatch]);
 
   const handleCloseModal = () => {
