@@ -18,7 +18,9 @@ export const BurgerConstructorUI: FC<BurgerConstructorUIProps> = ({
   onOrderClick,
   closeOrderModal,
   onIngredientClick,
-  onRemoveIngredient // добавлено
+  onRemoveIngredient,
+  onMoveIngredientUp, // Добавлено
+  onMoveIngredientDown // Добавлено
 }) => (
   <section className={styles.burger_constructor}>
     {constructorItems.bun ? (
@@ -42,15 +44,14 @@ export const BurgerConstructorUI: FC<BurgerConstructorUIProps> = ({
       {constructorItems.ingredients.length > 0 ? (
         constructorItems.ingredients.map(
           (item: TConstructorIngredient, index: number) => (
-            <div
-              key={item.id}
-              onClick={() => onIngredientClick(item)} // передайте onIngredientClick
-            >
+            <div key={item.id} onClick={() => onIngredientClick(item)}>
               <BurgerConstructorElement
                 ingredient={item}
                 index={index}
                 totalItems={constructorItems.ingredients.length}
-                onRemove={() => onRemoveIngredient(item.id)} // добавлено
+                onRemove={() => onRemoveIngredient(item.id)}
+                onMoveUp={() => onMoveIngredientUp(index)} // Добавлено
+                onMoveDown={() => onMoveIngredientDown(index)} // Добавлено
               />
             </div>
           )
@@ -93,7 +94,6 @@ export const BurgerConstructorUI: FC<BurgerConstructorUIProps> = ({
         onClick={onOrderClick}
       />
     </div>
-    {/* Прелоадер в данном месте в "Можно лучше" */}
     {orderRequest && (
       <Modal onClose={closeOrderModal} title={'Оформляем заказ...'}>
         <Preloader />

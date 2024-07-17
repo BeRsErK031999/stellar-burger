@@ -12,5 +12,7 @@ export type BurgerConstructorUIProps = {
   onOrderClick: () => void;
   closeOrderModal: () => void;
   onIngredientClick: (ingredient: TConstructorIngredient) => void;
-  onRemoveIngredient: (ingredientId: string) => void; // Добавлено
+  onRemoveIngredient: (ingredientId: string) => void;
+  onMoveIngredientUp: (index: number) => void; // Добавлено
+  onMoveIngredientDown: (index: number) => void; // Добавлено
 };

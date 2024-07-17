@@ -40,6 +40,22 @@ const orderSlice = createSlice({
     },
     setOrderModalData: (state, action: PayloadAction<any>) => {
       state.orderModalData = action.payload;
+    },
+    moveIngredientUp: (state, action: PayloadAction<number>) => {
+      const index = action.payload;
+      if (index > 0) {
+        const ingredient = state.ingredients[index];
+        state.ingredients.splice(index, 1);
+        state.ingredients.splice(index - 1, 0, ingredient);
+      }
+    },
+    moveIngredientDown: (state, action: PayloadAction<number>) => {
+      const index = action.payload;
+      if (index < state.ingredients.length - 1) {
+        const ingredient = state.ingredients[index];
+        state.ingredients.splice(index, 1);
+        state.ingredients.splice(index + 1, 0, ingredient);
+      }
     }
   }
 });
@@ -49,6 +65,8 @@ export const {
   removeIngredient,
   clearOrder,
   setOrderRequest,
-  setOrderModalData
+  setOrderModalData,
+  moveIngredientUp,
+  moveIngredientDown
 } = orderSlice.actions;
 export default orderSlice.reducer;

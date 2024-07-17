@@ -9,6 +9,10 @@ import IngredientDetails from '../ingredient-details/ingredient-details';
 import { RootState } from '../../services/store';
 import { removeIngredient } from '../../services/slices/orderSlice';
 import styles from './burger-constructor.module.css';
+import {
+  moveIngredientUp,
+  moveIngredientDown
+} from '../../services/slices/orderSlice';
 
 const selectOrderRequest = (state: RootState) => state.order.orderRequest;
 const selectUser = (state: RootState) => state.user.user;
@@ -60,6 +64,14 @@ export const BurgerConstructor: FC = () => {
     dispatch(removeIngredient(ingredientId));
   };
 
+  const handleMoveIngredientUp = (index: number) => {
+    dispatch(moveIngredientUp(index));
+  };
+
+  const handleMoveIngredientDown = (index: number) => {
+    dispatch(moveIngredientDown(index));
+  };
+
   const price = useMemo(
     () =>
       (bun ? bun.price * 2 : 0) +
@@ -76,7 +88,9 @@ export const BurgerConstructor: FC = () => {
       onOrderClick={onOrderClick}
       closeOrderModal={closeOrderModal}
       onIngredientClick={onIngredientClick}
-      onRemoveIngredient={handleRemoveIngredient} // Добавлено
+      onRemoveIngredient={handleRemoveIngredient}
+      onMoveIngredientUp={handleMoveIngredientUp} // Добавлено
+      onMoveIngredientDown={handleMoveIngredientDown} // Добавлено
     />
   );
 };
