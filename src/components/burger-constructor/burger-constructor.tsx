@@ -1,18 +1,18 @@
 import { FC, useState, useMemo } from 'react';
 import { useSelector, useDispatch } from '../../services/store';
-import { TConstructorIngredient, TIngredient } from '../../utils/types';
+import { TConstructorIngredient } from '../../utils/types';
 import { BurgerConstructorUI } from '@ui';
 import { useNavigate } from 'react-router-dom';
 import { setSelectedIngredient } from '../../services/slices/ingredientsSlice';
 import { ModalWrapper } from '../modal/modal';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import { RootState } from '../../services/store';
-import { removeIngredient } from '../../services/slices/orderSlice';
-import styles from './burger-constructor.module.css';
 import {
+  removeIngredient,
   moveIngredientUp,
   moveIngredientDown
 } from '../../services/slices/orderSlice';
+import styles from './burger-constructor.module.css';
 
 const selectOrderRequest = (state: RootState) => state.order.orderRequest;
 const selectUser = (state: RootState) => state.user.user;
@@ -30,10 +30,9 @@ export const BurgerConstructor: FC = () => {
   const orderModalData = useSelector(selectOrderModalData);
   const selectedIngredient = useSelector(selectSelectedIngredient);
   const bun = useSelector(selectOrderBun) as TConstructorIngredient | null;
-  const ingredients = useSelector(selectOrderIngredients).map((ingredient) => ({
-    ...ingredient,
-    id: ingredient._id
-  })) as TConstructorIngredient[];
+  const ingredients = useSelector(
+    selectOrderIngredients
+  ) as TConstructorIngredient[];
 
   const [isIngredientModalOpen, setIsIngredientModalOpen] = useState(false);
 
@@ -89,8 +88,8 @@ export const BurgerConstructor: FC = () => {
       closeOrderModal={closeOrderModal}
       onIngredientClick={onIngredientClick}
       onRemoveIngredient={handleRemoveIngredient}
-      onMoveIngredientUp={handleMoveIngredientUp} // Добавлено
-      onMoveIngredientDown={handleMoveIngredientDown} // Добавлено
+      onMoveIngredientUp={handleMoveIngredientUp}
+      onMoveIngredientDown={handleMoveIngredientDown}
     />
   );
 };

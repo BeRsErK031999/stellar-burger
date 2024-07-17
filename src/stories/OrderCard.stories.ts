@@ -4,10 +4,8 @@ import type { Meta, StoryObj } from '@storybook/react';
 const meta = {
   title: 'Example/OrderCard',
   component: OrderCardUI,
-  // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/writing-docs/autodocs
   tags: ['autodocs'],
   parameters: {
-    // More on how to position stories at: https://storybook.js.org/docs/configure/story-layout
     layout: 'fullscreen'
   }
 } satisfies Meta<typeof OrderCardUI>;
@@ -30,7 +28,8 @@ export const DefaultOrderCard: Story = {
           price: 123,
           image: '',
           image_large: '',
-          image_mobile: ''
+          image_mobile: '',
+          __v: 0 // Добавлено
         }
       ],
       ingredientsToShow: [
@@ -45,12 +44,13 @@ export const DefaultOrderCard: Story = {
           price: 123,
           image: '',
           image_large: '',
-          image_mobile: ''
+          image_mobile: '',
+          __v: 0 // Добавлено
         },
         {
-          _id: '111',
+          _id: '222',
           name: 'Начинка',
-          type: 'top',
+          type: 'main',
           proteins: 12,
           fat: 33,
           carbohydrates: 22,
@@ -58,7 +58,8 @@ export const DefaultOrderCard: Story = {
           price: 123,
           image: '',
           image_large: '',
-          image_mobile: ''
+          image_mobile: '',
+          __v: 0 // Добавлено
         }
       ],
       remains: 2,
