@@ -23,7 +23,6 @@ import {
   setSelectedIngredient
 } from '../../services/slices/ingredientsSlice';
 import { RootState } from '../../services/store';
-import { OrderCard } from '../order-card/order-card';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -98,8 +97,6 @@ const App = () => {
             />
           </Routes>
         )}
-        <OrderCard order={{}} />{' '}
-        {/* Пример передачи пустого объекта для пропса order */}
       </main>
     </div>
   );

@@ -7,7 +7,6 @@ import { setSelectedIngredient } from '../../services/slices/ingredientsSlice';
 import { ModalWrapper } from '../modal/modal';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import { RootState } from '../../services/store';
-import { ConstructorElement } from '@zlden/react-developer-burger-ui-components';
 import styles from './burger-constructor.module.css';
 
 const selectOrderRequest = (state: RootState) => state.order.orderRequest;
@@ -25,8 +24,11 @@ export const BurgerConstructor: FC = () => {
   const user = useSelector(selectUser);
   const orderModalData = useSelector(selectOrderModalData);
   const selectedIngredient = useSelector(selectSelectedIngredient);
-  const bun = useSelector(selectOrderBun);
-  const ingredients = useSelector(selectOrderIngredients);
+  const bun = useSelector(selectOrderBun) as TConstructorIngredient | null;
+  const ingredients = useSelector(selectOrderIngredients).map((ingredient) => ({
+    ...ingredient,
+    id: ingredient._id
+  })) as TConstructorIngredient[];
 
   const [isIngredientModalOpen, setIsIngredientModalOpen] = useState(false);
 
@@ -61,49 +63,14 @@ export const BurgerConstructor: FC = () => {
   );
 
   return (
-    <div className={styles.burgerConstructor}>
-      {bun && (
-        <div className={`${styles.element} mt-4 mr-4`}>
-          <ConstructorElement
-            type='top'
-            isLocked
-            text={`${bun.name} (верх)`}
-            price={bun.price}
-            thumbnail={bun.image}
-          />
-        </div>
-      )}
-      <ul className={styles.elements}>
-        {ingredients.map((item, index) => (
-          <div
-            key={item._id}
-            onClick={() => onIngredientClick({ ...item, id: item._id })}
-          >
-            <ConstructorElement
-              text={item.name}
-              price={item.price}
-              thumbnail={item.image}
-              key={item._id}
-            />
-          </div>
-        ))}
-      </ul>
-      {bun && (
-        <div className={`${styles.element} mt-4 mr-4`}>
-          <ConstructorElement
-            type='bottom'
-            isLocked
-            text={`${bun.name} (низ)`}
-            price={bun.price}
-            thumbnail={bun.image}
-          />
-        </div>
-      )}
-      {isIngredientModalOpen && selectedIngredient && (
-        <ModalWrapper title='Ingredient Details' onClose={closeIngredientModal}>
-          <IngredientDetails ingredient={selectedIngredient} />
-        </ModalWrapper>
-      )}
-    </div>
+    <BurgerConstructorUI
+      price={price}
+      orderRequest={orderRequest}
+      constructorItems={{ bun, ingredients }}
+      orderModalData={orderModalData}
+      onOrderClick={onOrderClick}
+      closeOrderModal={closeOrderModal}
+      onIngredientClick={onIngredientClick} // добавьте onIngredientClick в пропсы
+    />
   );
 };
