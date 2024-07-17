@@ -7,6 +7,7 @@ import { setSelectedIngredient } from '../../services/slices/ingredientsSlice';
 import { ModalWrapper } from '../modal/modal';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import { RootState } from '../../services/store';
+import { removeIngredient } from '../../services/slices/orderSlice';
 import styles from './burger-constructor.module.css';
 
 const selectOrderRequest = (state: RootState) => state.order.orderRequest;
@@ -55,6 +56,10 @@ export const BurgerConstructor: FC = () => {
     // Add logic for closing order modal
   };
 
+  const handleRemoveIngredient = (ingredientId: string) => {
+    dispatch(removeIngredient(ingredientId));
+  };
+
   const price = useMemo(
     () =>
       (bun ? bun.price * 2 : 0) +
@@ -70,7 +75,8 @@ export const BurgerConstructor: FC = () => {
       orderModalData={orderModalData}
       onOrderClick={onOrderClick}
       closeOrderModal={closeOrderModal}
-      onIngredientClick={onIngredientClick} // добавьте onIngredientClick в пропсы
+      onIngredientClick={onIngredientClick}
+      onRemoveIngredient={handleRemoveIngredient} // Добавлено
     />
   );
 };
