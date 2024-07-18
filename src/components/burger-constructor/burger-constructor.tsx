@@ -12,7 +12,8 @@ import {
   moveIngredientUp,
   moveIngredientDown,
   setOrderRequest,
-  setOrderNumber
+  setOrderNumber,
+  setOrderModalData // Добавлено
 } from '../../services/slices/orderSlice';
 import styles from './burger-constructor.module.css';
 import { getCookie } from '../../utils/cookie'; // Импорт функции для получения токена
@@ -29,7 +30,7 @@ export const BurgerConstructor: FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const orderRequest = useSelector(selectOrderRequest);
-  const user = useSelector(selectUser); // Используйте selectUser
+  const user = useSelector(selectUser);
   const orderModalData = useSelector(selectOrderModalData);
   const selectedIngredient = useSelector(selectSelectedIngredient);
   const bun = useSelector(selectOrderBun) as TConstructorIngredient | null;
@@ -51,7 +52,7 @@ export const BurgerConstructor: FC = () => {
 
   const onOrderClick = async () => {
     if (!user) {
-      // Проверяем, авторизован ли пользователь
+      console.log('User not authenticated, redirecting to login...');
       navigate('/login');
       return;
     }
@@ -59,20 +60,30 @@ export const BurgerConstructor: FC = () => {
 
     dispatch(setOrderRequest(true));
 
-    // Пример запроса к бэкенду для оформления заказа
     try {
+      const accessToken = getCookie('accessToken');
+      if (!accessToken) {
+        throw new Error('Access token is missing');
+      }
+
+      console.log('AccessToken:', accessToken); // Логируем токен перед запросом
+
+      const ingredientIds = [bun, ...ingredients].map(
+        (ingredient) => ingredient._id
+      );
+
+      console.log('Sending order request with ingredients:', ingredientIds);
+
       const response = await fetch(
         'https://norma.nomoreparties.space/api/orders',
         {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            Authorization: getCookie('accessToken') ?? '' // Добавление токена доступа в заголовок
+            Authorization: accessToken
           },
           body: JSON.stringify({
-            ingredients: [bun, ...ingredients].map(
-              (ingredient) => ingredient._id
-            )
+            ingredients: ingredientIds
           })
         }
       );
@@ -82,7 +93,9 @@ export const BurgerConstructor: FC = () => {
       }
 
       const data = await response.json();
+      console.log('Order response data:', data);
       dispatch(setOrderNumber(data.order.number));
+      dispatch(setOrderModalData(data.order)); // Добавлено: сохранение данных заказа в store
     } catch (error) {
       console.error('Ошибка при оформлении заказа:', error);
     } finally {
@@ -91,7 +104,7 @@ export const BurgerConstructor: FC = () => {
   };
 
   const closeOrderModal = () => {
-    // Add logic for closing order modal
+    dispatch(setOrderModalData(null)); // Сброс данных модального окна
   };
 
   const handleRemoveIngredient = (ingredientId: string) => {

@@ -45,7 +45,6 @@ const orderSlice = createSlice({
       state.orderModalData = action.payload;
     },
     setOrderNumber: (state, action: PayloadAction<string>) => {
-      // Добавлено
       state.orderNumber = action.payload;
     },
     moveIngredientUp: (state, action: PayloadAction<number>) => {

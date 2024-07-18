@@ -79,7 +79,6 @@ export const fetchOrders =
     }
   };
 
-// WebSocket логика
 export const startOrderFeed =
   (): ThunkAction<void, RootState, unknown, AnyAction> =>
   (dispatch: AppDispatch) => {

@@ -48,8 +48,10 @@ export const fetchWithRefresh = async <T>(
 ): Promise<T> => {
   try {
     const res = await fetch(url, options);
+    console.log('Initial request response:', res);
     return await checkResponse<T>(res);
   } catch (err) {
+    console.error('Initial request failed:', err);
     if ((err as { message: string }).message === 'jwt expired') {
       const refreshData = await refreshToken();
       if (options.headers) {
@@ -58,9 +60,10 @@ export const fetchWithRefresh = async <T>(
       }
       console.log('Retrying request with new token:', refreshData.accessToken);
       const res = await fetch(url, options);
+      console.log('Retry request response:', res);
       return await checkResponse<T>(res);
     } else {
-      console.error('Request failed:', err);
+      console.error('Request failed after refresh:', err);
       return Promise.reject(err);
     }
   }
@@ -219,15 +222,20 @@ export const resetPasswordApi = (data: { password: string; token: string }) =>
 
 export type TUserResponse = TServerResponse<{ user: TUser }>;
 
-export const getUserApi = (): Promise<TUserResponse> =>
-  fetchWithRefresh<TUserResponse>(`${URL}/auth/user`, {
+export const getUserApi = (): Promise<TUserResponse> => {
+  const accessToken = getCookie('accessToken');
+  console.log('AccessToken in getUserApi:', accessToken); // Логируем токен
+
+  return fetchWithRefresh<TUserResponse>(`${URL}/auth/user`, {
     headers: {
-      authorization: getCookie('accessToken') ?? ''
+      'Content-Type': 'application/json',
+      Authorization: accessToken ?? ''
     }
   }).then((data) => {
     console.log('Fetched user data:', data);
     return data;
   });
+};
 
 export const updateUserApi = (
   user: Partial<TRegisterData>
