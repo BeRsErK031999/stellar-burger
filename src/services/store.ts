@@ -14,12 +14,14 @@ import ingredientsReducer from './slices/ingredientsSlice';
 import constructorItemsReducer from './slices/constructorItemsSlice';
 import userReducer from './slices/userSlice';
 import orderReducer from './slices/orderSlice';
+import orderFeedReducer from './slices/orderFeedSlice';
 
 const rootReducer = combineReducers({
   ingredients: ingredientsReducer,
   constructorItems: constructorItemsReducer,
   user: userReducer,
-  order: orderReducer
+  order: orderReducer,
+  orderFeed: orderFeedReducer
 });
 
 const middleware: Middleware<{}, any, any>[] = [thunk];
@@ -31,14 +33,18 @@ const store = configureStore({
 });
 
 export type RootState = ReturnType<typeof rootReducer>;
-export type TApplicationActions = any; // Update with actual action types
+export type TApplicationActions = AnyAction; // Используйте AnyAction для типизации действий
 export type AppThunk<ReturnType = void> = ThunkAction<
   ReturnType,
   RootState,
   unknown,
   TApplicationActions
 >;
-export type AppDispatch = ThunkDispatch<RootState, never, TApplicationActions>;
+export type AppDispatch = ThunkDispatch<
+  RootState,
+  unknown,
+  TApplicationActions
+>;
 
 export const useDispatch = () => dispatchHook<AppDispatch>();
 export const useSelector: TypedUseSelectorHook<RootState> = selectorHook;
