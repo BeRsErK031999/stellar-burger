@@ -16,6 +16,7 @@ import userReducer from './slices/userSlice';
 import orderReducer from './slices/orderSlice';
 import orderFeedReducer from './slices/orderFeedSlice';
 import orderDetailsReducer from './slices/orderDetailsSlice';
+import userOrdersReducer from './slices/userOrdersSlice'; // Импортируйте новый слайс
 
 const rootReducer = combineReducers({
   ingredients: ingredientsReducer,
@@ -23,7 +24,8 @@ const rootReducer = combineReducers({
   user: userReducer,
   order: orderReducer,
   orderFeed: orderFeedReducer,
-  orderDetails: orderDetailsReducer
+  orderDetails: orderDetailsReducer,
+  userOrders: userOrdersReducer // Добавьте новый слайс
 });
 
 const middleware: Middleware<{}, any, any>[] = [thunk];

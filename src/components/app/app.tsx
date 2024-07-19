@@ -81,7 +81,7 @@ const App = () => {
             path='/profile/orders/:number'
             element={
               <PrivateRoute>
-                <OrderInfo />
+                <OrderDetailsPage />
               </PrivateRoute>
             }
           />
