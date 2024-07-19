@@ -8,15 +8,17 @@ type ModalProps = {
 };
 
 export const ModalUI: FC<ModalProps> = ({ title, onClose, children }) => (
-  <div className={styles.modal}>
-    <div className={styles.modalContent}>
-      <div className={styles.modalHeader}>
-        <h2>{title}</h2>
-        <button onClick={onClose} className={styles.closeButton}>
-          &times;
-        </button>
+  <div className={styles.overlay}>
+    <div className={styles.modal}>
+      <div className={styles.modalContent}>
+        <div className={styles.modalHeader}>
+          <h2>{title}</h2>
+          <button onClick={onClose} className={styles.closeButton}>
+            &times;
+          </button>
+        </div>
+        <div className={styles.modalBody}>{children}</div>
       </div>
-      <div className={styles.modalBody}>{children}</div>
     </div>
   </div>
 );

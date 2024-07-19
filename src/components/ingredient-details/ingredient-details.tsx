@@ -38,12 +38,24 @@ const IngredientDetails: FC<IngredientDetailsProps> = ({ ingredient }) => {
   return (
     <div className={styles.details}>
       <img src={selectedIngredient.image_large} alt={selectedIngredient.name} />
-      <h3>{selectedIngredient.name}</h3>
+      <h3 className='text text_type_main-medium'>{selectedIngredient.name}</h3>
       <ul>
-        <li>Calories: {selectedIngredient.calories}</li>
-        <li>Proteins: {selectedIngredient.proteins}</li>
-        <li>Fat: {selectedIngredient.fat}</li>
-        <li>Carbohydrates: {selectedIngredient.carbohydrates}</li>
+        <li>
+          <span>Калории,ккал</span>
+          <span>{selectedIngredient.calories}</span>
+        </li>
+        <li>
+          <span>Белки, г</span>
+          <span>{selectedIngredient.proteins}</span>
+        </li>
+        <li>
+          <span>Жиры, г</span>
+          <span>{selectedIngredient.fat}</span>
+        </li>
+        <li>
+          <span>Углеводы, г</span>
+          <span>{selectedIngredient.carbohydrates}</span>
+        </li>
       </ul>
     </div>
   );

@@ -92,7 +92,7 @@ const App = () => {
               path='/ingredients/:id'
               element={
                 <ModalWrapper
-                  title='Ingredient Details'
+                  title='Детали ингредиента'
                   onClose={handleCloseModal}
                 >
                   <IngredientDetails ingredient={selectedIngredient} />
