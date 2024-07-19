@@ -1,6 +1,5 @@
 import { FC, memo, useEffect } from 'react';
 import styles from './feed.module.css';
-import { FeedUIProps } from './type';
 import { OrdersList, FeedInfo } from '@components';
 import { RefreshButton } from '@zlden/react-developer-burger-ui-components';
 import { useDispatch, useSelector } from 'react-redux';
@@ -10,7 +9,7 @@ import {
   stopOrderFeed
 } from '../../../../services/slices/orderFeedSlice';
 
-export const FeedUI: FC<FeedUIProps> = memo(({ handleGetFeeds }) => {
+const FeedUI: FC = memo(() => {
   const dispatch = useDispatch();
   const orders = useSelector((state: RootState) => state.orderFeed.orders);
 
@@ -21,6 +20,10 @@ export const FeedUI: FC<FeedUIProps> = memo(({ handleGetFeeds }) => {
     };
   }, [dispatch]);
 
+  useEffect(() => {
+    console.log('Orders:', orders);
+  }, [orders]);
+
   return (
     <main className={styles.containerMain}>
       <div className={`${styles.titleBox} mt-10 mb-5`}>
@@ -29,7 +32,7 @@ export const FeedUI: FC<FeedUIProps> = memo(({ handleGetFeeds }) => {
         </h1>
         <RefreshButton
           text='Обновить'
-          onClick={handleGetFeeds}
+          onClick={() => dispatch(startOrderFeed() as any)}
           extraClass={'ml-30'}
         />
       </div>
@@ -44,3 +47,5 @@ export const FeedUI: FC<FeedUIProps> = memo(({ handleGetFeeds }) => {
     </main>
   );
 });
+
+export default FeedUI;

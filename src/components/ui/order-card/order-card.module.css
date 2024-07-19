@@ -2,6 +2,8 @@
   display: flex;
   padding: 0;
   margin: 0;
+  position: relative;
+  height: 56px; 
 }
 
 .order {
@@ -35,27 +37,24 @@
 }
 
 .img_wrap {
-  width: 62px;
-  height: 62px;
+  width: 56px; 
+  height: 56px; 
   border-radius: 50%;
   border: #801ab3 solid 2px;
   background-color: #1c1c21;
-  position: relative;
+  position: relative; 
+  margin-left: -20px; 
   list-style: none;
-  margin: 0;
   padding: 0;
 }
 
-.img_wrap:nth-child(n + 2) {
-  position: relative;
-  right: 25px;
+.img_wrap:first-child {
+  margin-left: 0; 
 }
 
 .img {
-  position: relative;
-  right: 25px;
-  width: 112px;
-  height: 56px;
+  width: 56px; 
+  height: 56px; 
 }
 
 .remains {
@@ -63,4 +62,8 @@
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
+  color: white; /* цвет текста */
+  background-color: rgba(0, 0, 0, 0.5); /* полупрозрачный фон */
+  padding: 0 5px;
+  border-radius: 15px;
 }

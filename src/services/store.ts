@@ -15,13 +15,15 @@ import constructorItemsReducer from './slices/constructorItemsSlice';
 import userReducer from './slices/userSlice';
 import orderReducer from './slices/orderSlice';
 import orderFeedReducer from './slices/orderFeedSlice';
+import orderDetailsReducer from './slices/orderDetailsSlice';
 
 const rootReducer = combineReducers({
   ingredients: ingredientsReducer,
   constructorItems: constructorItemsReducer,
   user: userReducer,
   order: orderReducer,
-  orderFeed: orderFeedReducer
+  orderFeed: orderFeedReducer,
+  orderDetails: orderDetailsReducer
 });
 
 const middleware: Middleware<{}, any, any>[] = [thunk];

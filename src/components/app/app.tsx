@@ -24,6 +24,7 @@ import {
 } from '../../services/slices/ingredientsSlice';
 import { fetchUser } from '../../services/slices/userSlice'; // Импортируем экшен для получения данных пользователя
 import { RootState } from '../../services/store';
+import { OrderDetailsPage } from '../../pages/order-details-page';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -56,6 +57,7 @@ const App = () => {
           <Route path='/register' element={<Register />} />
           <Route path='/forgot-password' element={<ForgotPassword />} />
           <Route path='/reset-password' element={<ResetPassword />} />
+          <Route path='/feed/:id' element={<OrderDetailsPage />} />
           <Route
             path='/profile'
             element={

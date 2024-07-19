@@ -1,0 +1,56 @@
+.orderDetails {
+    padding: 20px;
+  }
+  
+  .orderId {
+    text-align: center;
+  }
+  
+  .orderName {
+    margin-top: 40px;
+    text-align: center;
+  }
+  
+  .orderStatus {
+    margin-top: 12px;
+    text-align: center;
+  }
+  
+  .ingredientsTitle {
+    margin-top: 60px;
+  }
+  
+  .ingredientsList {
+    margin-top: 24px;
+    list-style: none;
+    padding: 0;
+  }
+  
+  .ingredientItem {
+    display: flex;
+    align-items: center;
+    margin-bottom: 24px;
+  }
+  
+  .ingredientImage {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    margin-right: 16px;
+  }
+  
+  .ingredientName {
+    flex-grow: 1;
+  }
+  
+  .ingredientPrice {
+    display: flex;
+    align-items: center;
+  }
+  
+  .orderInfo {
+    margin-top: 40px;
+    display: flex;
+    justify-content: space-between;
+  }
+  

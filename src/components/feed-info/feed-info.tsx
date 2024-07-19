@@ -23,7 +23,6 @@ export const FeedInfo: FC = () => {
   );
 
   useEffect(() => {
-    dispatch(fetchOrders() as any); // Убедитесь, что используется правильный тип для dispatch
     dispatch(startOrderFeed() as any);
     return () => {
       dispatch(stopOrderFeed() as any);

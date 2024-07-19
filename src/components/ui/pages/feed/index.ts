@@ -1,1 +1,3 @@
-export { FeedUI } from './feed';
+import FeedUI from './feed';
+
+export default FeedUI;
