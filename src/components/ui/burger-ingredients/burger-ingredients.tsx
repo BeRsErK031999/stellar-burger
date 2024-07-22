@@ -1,10 +1,12 @@
+// src/components/ui/burger-ingredients/burger-ingredients.tsx
 import React, { FC } from 'react';
-import { useDispatch } from '../../../services/store';
+import { useDispatch, useSelector } from '../../../services/store';
 import { Link, useLocation } from 'react-router-dom';
 import { TIngredient, TTabMode } from '@utils-types';
 import styles from './burger-ingredients.module.css';
 import { addIngredient } from '../../../services/slices/orderSlice';
 import { setSelectedIngredient } from '../../../services/slices/ingredientsSlice';
+import { BurgerIngredientUI } from '../burger-ingredient/burger-ingredient';
 
 interface BurgerIngredientsProps {
   currentTab: TTabMode;
@@ -13,7 +15,7 @@ interface BurgerIngredientsProps {
   sauces: TIngredient[];
   titleBunRef: React.RefObject<HTMLHeadingElement>;
   titleMainRef: React.RefObject<HTMLHeadingElement>;
-  titleSaucesRef: React.RefObject<HTMLHeadingElement>;
+  titleSaucesRef: React.RefObject<HTMLDivElement>;
   bunsRef: React.RefObject<HTMLDivElement>;
   mainsRef: React.RefObject<HTMLDivElement>;
   saucesRef: React.RefObject<HTMLDivElement>;
@@ -35,6 +37,7 @@ export const BurgerIngredients: FC<BurgerIngredientsProps> = ({
 }) => {
   const dispatch = useDispatch();
   const location = useLocation();
+  const ingredientCounts = useSelector((state) => state.order.ingredientCounts);
 
   const handleAddToOrder = (ingredient: TIngredient) => {
     dispatch(addIngredient(ingredient));
@@ -78,79 +81,37 @@ export const BurgerIngredients: FC<BurgerIngredientsProps> = ({
         <h2 ref={titleBunRef}>Булки</h2>
         <div ref={bunsRef} className={styles.ingredientsGrid}>
           {buns.map((bun) => (
-            <div key={bun._id} className={styles.ingredientCard}>
-              <Link
-                to={`/ingredients/${bun._id}`}
-                state={{ background: location }}
-                onClick={() => handleImageClick(bun)}
-              >
-                <img
-                  src={bun.image}
-                  alt={bun.name}
-                  className={styles.ingredientImage}
-                />
-              </Link>
-              <p className={styles.price}>{bun.price}</p>
-              <p className={styles.ingredientName}>{bun.name}</p>
-              <button
-                className={styles.addButton}
-                onClick={() => handleAddToOrder(bun)}
-              >
-                + Добавить
-              </button>
-            </div>
+            <BurgerIngredientUI
+              key={bun._id}
+              ingredient={bun}
+              count={ingredientCounts[bun._id] || 0}
+              locationState={{ background: location }} // Pass locationState
+              handleAdd={() => handleAddToOrder(bun)}
+            />
           ))}
         </div>
         <h2 ref={titleMainRef}>Начинки</h2>
         <div ref={mainsRef} className={styles.ingredientsGrid}>
           {mains.map((main) => (
-            <div key={main._id} className={styles.ingredientCard}>
-              <Link
-                to={`/ingredients/${main._id}`}
-                state={{ background: location }}
-                onClick={() => handleImageClick(main)}
-              >
-                <img
-                  src={main.image}
-                  alt={main.name}
-                  className={styles.ingredientImage}
-                />
-              </Link>
-              <p className={styles.price}>{main.price}</p>
-              <p className={styles.ingredientName}>{main.name}</p>
-              <button
-                className={styles.addButton}
-                onClick={() => handleAddToOrder(main)}
-              >
-                + Добавить
-              </button>
-            </div>
+            <BurgerIngredientUI
+              key={main._id}
+              ingredient={main}
+              count={ingredientCounts[main._id] || 0}
+              locationState={{ background: location }} // Pass locationState
+              handleAdd={() => handleAddToOrder(main)}
+            />
           ))}
         </div>
         <h2 ref={titleSaucesRef}>Соусы</h2>
         <div ref={saucesRef} className={styles.ingredientsGrid}>
           {sauces.map((sauce) => (
-            <div key={sauce._id} className={styles.ingredientCard}>
-              <Link
-                to={`/ingredients/${sauce._id}`}
-                state={{ background: location }}
-                onClick={() => handleImageClick(sauce)}
-              >
-                <img
-                  src={sauce.image}
-                  alt={sauce.name}
-                  className={styles.ingredientImage}
-                />
-              </Link>
-              <p className={styles.price}>{sauce.price}</p>
-              <p className={styles.ingredientName}>{sauce.name}</p>
-              <button
-                className={styles.addButton}
-                onClick={() => handleAddToOrder(sauce)}
-              >
-                + Добавить
-              </button>
-            </div>
+            <BurgerIngredientUI
+              key={sauce._id}
+              ingredient={sauce}
+              count={ingredientCounts[sauce._id] || 0}
+              locationState={{ background: location }} // Pass locationState
+              handleAdd={() => handleAddToOrder(sauce)}
+            />
           ))}
         </div>
       </div>

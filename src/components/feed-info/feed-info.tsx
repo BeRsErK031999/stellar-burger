@@ -1,13 +1,11 @@
 import { FC, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../services/store';
+import { useDispatch, useSelector } from '../../services/store';
 import {
-  fetchOrders,
   startOrderFeed,
   stopOrderFeed
 } from '../../services/slices/orderFeedSlice';
 import { TOrder } from '@utils-types';
-import { FeedInfoUI } from '../ui/feed-info/feed-info'; // Убедитесь, что используете именованный импорт
+import { FeedInfoUI } from '../ui/feed-info/feed-info';
 import styles from './feed-info.module.css';
 
 const getOrders = (orders: TOrder[], status: string): number[] =>
@@ -18,9 +16,7 @@ const getOrders = (orders: TOrder[], status: string): number[] =>
 
 export const FeedInfo: FC = () => {
   const dispatch = useDispatch();
-  const { orders, total, totalToday } = useSelector(
-    (state: RootState) => state.orderFeed
-  );
+  const { orders, total, totalToday } = useSelector((state) => state.orderFeed);
 
   useEffect(() => {
     dispatch(startOrderFeed() as any);

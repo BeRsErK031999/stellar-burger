@@ -1,21 +1,20 @@
+// src/components/ui/burger-ingredient/burger-ingredient.tsx
 import React, { FC, memo } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import styles from './burger-ingredient.module.css';
 
 import {
-  Counter,
   CurrencyIcon,
   AddButton
 } from '@zlden/react-developer-burger-ui-components';
 
 import { TBurgerIngredientUIProps } from './type';
-import { useDispatch } from '../../../services/store';
+import { useDispatch, useSelector } from '../../../services/store';
 import { setSelectedIngredient } from '../../../services/slices/ingredientsSlice';
 import { addIngredient } from '../../../services/slices/orderSlice';
 
 export const BurgerIngredientUI: FC<TBurgerIngredientUIProps> = memo(
-  ({ ingredient, count, handleAdd }) => {
-    const location = useLocation();
+  ({ ingredient, count, locationState, handleAdd }) => {
     const dispatch = useDispatch();
     const { image, price, name, _id } = ingredient;
 
@@ -35,10 +34,10 @@ export const BurgerIngredientUI: FC<TBurgerIngredientUIProps> = memo(
         <Link
           className={styles.article}
           to={`/ingredients/${_id}`}
-          state={{ background: location }}
+          state={locationState}
           onClick={handleImageClick}
         >
-          {count && <Counter count={count} />}
+          {count > 0 && <div className={styles.counter}>{count}</div>}
           <img className={styles.img} src={image} alt='картинка ингредиента.' />
         </Link>
         <div className={`${styles.cost} mt-2 mb-2`}>

@@ -16,14 +16,13 @@ import { NotFound404 } from '@pages';
 import { OrderInfo } from '@components';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import { ModalWrapper } from '../../components/modal/modal';
-import PrivateRoute from '../../pages/PrivateRoute';
-import { useDispatch, useSelector } from '../../services/store';
+import ProtectedRoute from '../../pages/PrivateRoute';
+import { useDispatch, useSelector, RootState } from '../../services/store';
 import {
   fetchIngredients,
   setSelectedIngredient
 } from '../../services/slices/ingredientsSlice';
-import { fetchUser } from '../../services/slices/userSlice'; // Импортируем экшен для получения данных пользователя
-import { RootState } from '../../services/store';
+import { fetchUser } from '../../services/slices/userSlice';
 import { OrderDetailsPage } from '../../pages/order-details-page';
 
 const App = () => {
@@ -38,7 +37,7 @@ const App = () => {
 
   useEffect(() => {
     dispatch(fetchIngredients());
-    dispatch(fetchUser()); // Запрашиваем данные пользователя при инициализации приложения
+    dispatch(fetchUser());
   }, [dispatch]);
 
   const handleCloseModal = () => {
@@ -61,17 +60,17 @@ const App = () => {
           <Route
             path='/profile'
             element={
-              <PrivateRoute>
+              <ProtectedRoute>
                 <Profile />
-              </PrivateRoute>
+              </ProtectedRoute>
             }
           />
           <Route
             path='/profile/orders'
             element={
-              <PrivateRoute>
+              <ProtectedRoute>
                 <ProfileOrders />
-              </PrivateRoute>
+              </ProtectedRoute>
             }
           />
           <Route path='*' element={<NotFound404 />} />
@@ -80,9 +79,9 @@ const App = () => {
           <Route
             path='/profile/orders/:number'
             element={
-              <PrivateRoute>
+              <ProtectedRoute>
                 <OrderDetailsPage />
-              </PrivateRoute>
+              </ProtectedRoute>
             }
           />
         </Routes>

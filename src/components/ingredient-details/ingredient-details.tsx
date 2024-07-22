@@ -1,11 +1,7 @@
 import React, { FC, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { useDispatch, useSelector } from '../../services/store';
-import {
-  fetchIngredients,
-  setSelectedIngredient
-} from '../../services/slices/ingredientsSlice';
-import { RootState } from '../../services/store';
+import { useDispatch, useSelector, RootState } from '../../services/store';
+import { setSelectedIngredient } from '../../services/slices/ingredientsSlice';
 import styles from './ingredient-details.module.css';
 import { TIngredient } from '../../utils/types';
 
@@ -23,9 +19,6 @@ const IngredientDetails: FC<IngredientDetailsProps> = ({ ingredient }) => {
     ingredient || ingredients.find((item) => item._id === id);
 
   useEffect(() => {
-    if (!ingredients.length) {
-      dispatch(fetchIngredients());
-    }
     if (selectedIngredient && !ingredient) {
       dispatch(setSelectedIngredient(selectedIngredient));
     }

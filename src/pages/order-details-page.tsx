@@ -1,8 +1,7 @@
 import React, { FC, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from '../services/store'; // Используем типизированные хуки
 import { useParams } from 'react-router-dom';
 import { fetchOrderById } from '../services/slices/orderDetailsSlice';
-import { RootState } from '../services/store';
 import styles from './order-details-page.module.css';
 import {
   CurrencyIcon,
@@ -13,11 +12,9 @@ export const OrderDetailsPage: FC = () => {
   const { id } = useParams<{ id: string }>();
   const dispatch = useDispatch();
   const { order, isLoading, error } = useSelector(
-    (state: RootState) => state.orderDetails
+    (state) => state.orderDetails
   );
-  const ingredients = useSelector(
-    (state: RootState) => state.ingredients.items
-  );
+  const ingredients = useSelector((state) => state.ingredients.items);
 
   useEffect(() => {
     if (id) {

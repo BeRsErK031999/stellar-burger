@@ -1,5 +1,5 @@
 import { FC, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from '../../services/store';
 import { RootState } from '../../services/store';
 import { fetchUserOrders } from '../../services/slices/userOrdersSlice';
 import { OrdersList } from '@components';
@@ -24,3 +24,5 @@ export const ProfileOrders: FC = () => {
 
   return <OrdersList orders={orders} />;
 };
+
+export default ProfileOrders;

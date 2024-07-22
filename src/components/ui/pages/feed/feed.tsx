@@ -2,8 +2,7 @@ import { FC, memo, useEffect } from 'react';
 import styles from './feed.module.css';
 import { OrdersList, FeedInfo } from '@components';
 import { RefreshButton } from '@zlden/react-developer-burger-ui-components';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../../../services/store';
+import { useDispatch, useSelector } from '../../../../services/store';
 import {
   startOrderFeed,
   stopOrderFeed
@@ -11,7 +10,7 @@ import {
 
 const FeedUI: FC = memo(() => {
   const dispatch = useDispatch();
-  const orders = useSelector((state: RootState) => state.orderFeed.orders);
+  const orders = useSelector((state) => state.orderFeed.orders);
 
   useEffect(() => {
     dispatch(startOrderFeed() as any);
