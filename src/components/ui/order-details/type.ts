@@ -1,4 +1,6 @@
+import { TOrder, TIngredient } from '../../../utils/types';
+
 export type OrderDetailsUIProps = {
-  orderNumber: number;
-  onClose: () => void;
+  order: TOrder;
+  ingredients: TIngredient[];
 };

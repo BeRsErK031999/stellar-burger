@@ -1,5 +1,4 @@
 // src/index.tsx
-
 import React from 'react';
 import * as ReactDOMClient from 'react-dom/client';
 import { Provider } from 'react-redux';

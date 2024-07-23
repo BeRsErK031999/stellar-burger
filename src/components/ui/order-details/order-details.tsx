@@ -1,29 +1,70 @@
-import React from 'react';
+import React, { FC } from 'react';
+import { TOrder, TIngredient } from '../../../utils/types';
 import styles from './order-details.module.css';
-import doneImg from '../../../images/done.svg';
-import { OrderDetailsUIProps } from './type';
-import { useSelector } from '../../../services/store';
-import { RootState } from '../../../services/store';
+import {
+  CurrencyIcon,
+  FormattedDate
+} from '@zlden/react-developer-burger-ui-components';
 
-export const OrderDetailsUI: React.FC<OrderDetailsUIProps> = ({
-  orderNumber,
-  onClose
-}) => (
-  <>
-    <h2 className={`${styles.title} text text_type_digits-large mt-2 mb-4`}>
-      {orderNumber}
-    </h2>
-    <p className='text text_type_main-medium'>идентификатор заказа</p>
-    <img
-      className={styles.img}
-      src={doneImg}
-      alt='изображение статуса заказа.'
-    />
-    <p className='text text_type_main-default mb-1'>
-      Ваш заказ начали готовить
-    </p>
-    <p className={`${styles.text} text text_type_main-default`}>
-      Дождитесь готовности на орбитальной станции
-    </p>
-  </>
-);
+interface OrderDetailsUIProps {
+  order: TOrder;
+  ingredients: TIngredient[];
+}
+
+const OrderDetailsUI: FC<OrderDetailsUIProps> = ({ order, ingredients }) => {
+  const orderIngredients = order.ingredients.map((id) =>
+    ingredients.find((ingredient) => ingredient._id === id)
+  );
+
+  const orderTotal = orderIngredients.reduce((sum, ingredient) => {
+    if (ingredient) {
+      return sum + ingredient.price;
+    }
+    return sum;
+  }, 0);
+
+  return (
+    <div className={styles.orderDetails}>
+      <h2 className={`${styles.title} text text_type_digits-large mt-2 mb-4`}>
+        #{String(order.number).padStart(6, '0')}
+      </h2>
+      <h4 className={`text text_type_main-medium mb-6`}>{order.name}</h4>
+      <p className={`text text_type_main-default mb-6 ${styles.status}`}>
+        {order.status}
+      </p>
+      <p className='text text_type_main-medium mb-6'>Состав:</p>
+      <ul className={styles.ingredientList}>
+        {orderIngredients.map(
+          (ingredient, index) =>
+            ingredient && (
+              <li key={index} className={styles.ingredient}>
+                <img
+                  src={ingredient.image_mobile}
+                  alt={ingredient.name}
+                  className={styles.ingredientImage}
+                />
+                <span className='text text_type_main-default ml-4'>
+                  {ingredient.name}
+                </span>
+                <span className='text text_type_digits-default ml-4'>
+                  {ingredient.price} <CurrencyIcon type='primary' />
+                </span>
+              </li>
+            )
+        )}
+      </ul>
+      <div className={`${styles.total} mt-10`}>
+        <span className='text text_type_main-default text_color_inactive'>
+          <FormattedDate date={new Date(order.createdAt)} />
+        </span>
+        <span
+          className={`text text_type_digits-default ml-2 ${styles.totalPrice}`}
+        >
+          {orderTotal} <CurrencyIcon type='primary' />
+        </span>
+      </div>
+    </div>
+  );
+};
+
+export default OrderDetailsUI;

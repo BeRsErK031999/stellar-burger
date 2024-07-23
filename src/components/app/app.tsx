@@ -1,3 +1,4 @@
+// src/components/app/app.tsx
 import { useEffect } from 'react';
 import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import '../../index.css';

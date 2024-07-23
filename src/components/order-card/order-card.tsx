@@ -1,5 +1,4 @@
 import React, { FC, memo } from 'react';
-import { Link } from 'react-router-dom';
 import { useSelector } from '../../services/store';
 import { RootState } from '../../services/store';
 import styles from '../ui/order-card/order-card.module.css';
@@ -9,7 +8,12 @@ import {
 } from '@zlden/react-developer-burger-ui-components';
 import { TOrder } from '../../utils/types';
 
-export const OrderCard: FC<{ order: TOrder }> = memo(({ order }) => {
+interface OrderCardProps {
+  order: TOrder;
+  onClick: (order: TOrder) => void;
+}
+
+export const OrderCard: FC<OrderCardProps> = memo(({ order, onClick }) => {
   const ingredients = useSelector(
     (state: RootState) => state.ingredients.items
   );
@@ -26,7 +30,7 @@ export const OrderCard: FC<{ order: TOrder }> = memo(({ order }) => {
   }, 0);
 
   return (
-    <Link to={`/feed/${order.number}`} className={`${styles.order} p-6 mb-4`}>
+    <div className={`${styles.order} p-6 mb-4`} onClick={() => onClick(order)}>
       <div className={styles.order_info}>
         <span className={`text text_type_digits-default ${styles.number}`}>
           #{String(order.number).padStart(6, '0')}
@@ -74,6 +78,6 @@ export const OrderCard: FC<{ order: TOrder }> = memo(({ order }) => {
           <CurrencyIcon type='primary' />
         </div>
       </div>
-    </Link>
+    </div>
   );
 });

@@ -7,6 +7,7 @@ import {
   startOrderFeed,
   stopOrderFeed
 } from '../../../../services/slices/orderFeedSlice';
+import { TOrder } from '../../../../utils/types';
 
 const FeedUI: FC = memo(() => {
   const dispatch = useDispatch();
@@ -19,9 +20,10 @@ const FeedUI: FC = memo(() => {
     };
   }, [dispatch]);
 
-  useEffect(() => {
-    console.log('Orders:', orders);
-  }, [orders]);
+  const handleOrderClick = (order: TOrder) => {
+    // Реализуйте логику открытия модального окна для заказа
+    console.log(order);
+  };
 
   return (
     <main className={styles.containerMain}>
@@ -37,7 +39,7 @@ const FeedUI: FC = memo(() => {
       </div>
       <div className={styles.main}>
         <div className={styles.columnOrders}>
-          <OrdersList orders={orders} />
+          <OrdersList orders={orders} onOrderClick={handleOrderClick} />
         </div>
         <div className={styles.columnInfo}>
           <FeedInfo />

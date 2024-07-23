@@ -1,3 +1,4 @@
+// src/pages/PrivateRoute.tsx
 import { useSelector } from 'react-redux';
 import { Navigate, useLocation } from 'react-router-dom';
 import { RootState } from '../services/store';

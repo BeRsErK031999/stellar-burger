@@ -1,12 +1,12 @@
 import { FC } from 'react';
 import styles from './orders-list.module.css';
-import { OrdersListUIProps } from './type';
+import { OrdersListProps } from './type';
 import { OrderCard } from '../../order-card/order-card';
 
-export const OrdersListUI: FC<OrdersListUIProps> = ({ orderByDate }) => (
+export const OrdersList: FC<OrdersListProps> = ({ orders, onOrderClick }) => (
   <div className={`${styles.content}`}>
-    {orderByDate.map((order) => (
-      <OrderCard order={order} key={order._id} />
+    {orders.map((order) => (
+      <OrderCard order={order} key={order._id} onClick={onOrderClick} />
     ))}
   </div>
 );

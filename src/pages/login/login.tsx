@@ -1,5 +1,6 @@
+// src/pages/login/login.tsx
 import { FC, SyntheticEvent, useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { LoginUI } from '@ui-pages';
 import { loginUser } from '../../services/slices/userSlice';
 import { useDispatch, useSelector, RootState } from '../../services/store';
@@ -9,15 +10,19 @@ export const Login: FC = () => {
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
   const { isAuthenticated, hasError } = useSelector(
     (state: RootState) => state.user
   );
 
+  // Capture the route the user came from, or default to profile
+  const from = location.state?.from?.pathname || '/profile';
+
   useEffect(() => {
     if (isAuthenticated) {
-      navigate('/profile'); // Перенаправление после успешного входа
+      navigate(from); // Перенаправление после успешного входа
     }
-  }, [isAuthenticated, navigate]);
+  }, [isAuthenticated, navigate, from]);
 
   const handleSubmit = async (e: SyntheticEvent) => {
     e.preventDefault();
