@@ -1,15 +1,13 @@
 // src/components/ui/burger-ingredient/burger-ingredient.tsx
 import React, { FC, memo } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import styles from './burger-ingredient.module.css';
-
 import {
   CurrencyIcon,
   AddButton
 } from '@zlden/react-developer-burger-ui-components';
-
 import { TBurgerIngredientUIProps } from './type';
-import { useDispatch, useSelector } from '../../../services/store';
+import { useDispatch } from '../../../services/store';
 import { setSelectedIngredient } from '../../../services/slices/ingredientsSlice';
 import { addIngredient } from '../../../services/slices/orderSlice';
 

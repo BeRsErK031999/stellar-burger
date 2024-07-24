@@ -1,15 +1,14 @@
-// src/services/slices/orderSlice.ts
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { v4 as uuidv4 } from 'uuid';
 import { TIngredient, TConstructorIngredient } from '../../utils/types';
 
 interface OrderState {
-  bun: TIngredient | null;
+  bun: TConstructorIngredient | null;
   ingredients: TConstructorIngredient[];
   orderRequest: boolean;
   orderModalData: any | null;
-  orderNumber: string | null; // Добавлено
-  ingredientCounts: { [key: string]: number }; // Добавлено
+  orderNumber: string | null;
+  ingredientCounts: { [key: string]: number };
 }
 
 const initialState: OrderState = {
@@ -17,8 +16,8 @@ const initialState: OrderState = {
   ingredients: [],
   orderRequest: false,
   orderModalData: null,
-  orderNumber: null, // Добавлено
-  ingredientCounts: {} // Добавлено
+  orderNumber: null,
+  ingredientCounts: {}
 };
 
 const orderSlice = createSlice({
@@ -27,11 +26,14 @@ const orderSlice = createSlice({
   reducers: {
     addIngredient: (state, action: PayloadAction<TIngredient>) => {
       if (action.payload.type === 'bun') {
-        state.bun = action.payload;
-        state.ingredientCounts[action.payload._id] = 1; // Set bun count to 1
+        if (state.bun) {
+          state.ingredientCounts[state.bun._id] = 0; // Сброс количества старой булки
+        }
+        state.bun = { ...action.payload, uuid: uuidv4() }; // Добавляем uuid для новой булки
+        state.ingredientCounts[action.payload._id] = 1; // Установка количества новой булки в 1
       } else {
-        state.ingredients.push({ ...action.payload, uuid: uuidv4() });
-        // Increment the count of the ingredient
+        const newIngredient = { ...action.payload, uuid: uuidv4() };
+        state.ingredients.push(newIngredient);
         if (state.ingredientCounts[action.payload._id]) {
           state.ingredientCounts[action.payload._id]++;
         } else {
@@ -47,7 +49,6 @@ const orderSlice = createSlice({
         const ingredientId = state.ingredients[ingredientIndex]._id;
         state.ingredients.splice(ingredientIndex, 1);
 
-        // Decrement the count of the ingredient
         if (state.ingredientCounts[ingredientId] > 0) {
           state.ingredientCounts[ingredientId]--;
         }
@@ -92,7 +93,7 @@ export const {
   clearOrder,
   setOrderRequest,
   setOrderModalData,
-  setOrderNumber, // Добавлено
+  setOrderNumber,
   moveIngredientUp,
   moveIngredientDown
 } = orderSlice.actions;

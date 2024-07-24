@@ -1,11 +1,9 @@
-// src/components/ui/burger-ingredients/burger-ingredients.tsx
 import React, { FC } from 'react';
 import { useDispatch, useSelector } from '../../../services/store';
-import { Link, useLocation } from 'react-router-dom';
 import { TIngredient, TTabMode } from '@utils-types';
+import { useLocation } from 'react-router-dom';
 import styles from './burger-ingredients.module.css';
 import { addIngredient } from '../../../services/slices/orderSlice';
-import { setSelectedIngredient } from '../../../services/slices/ingredientsSlice';
 import { BurgerIngredientUI } from '../burger-ingredient/burger-ingredient';
 
 interface BurgerIngredientsProps {
@@ -36,15 +34,11 @@ export const BurgerIngredients: FC<BurgerIngredientsProps> = ({
   onTabClick
 }) => {
   const dispatch = useDispatch();
-  const location = useLocation();
+  const location = useLocation(); // добавляем useLocation для получения locationState
   const ingredientCounts = useSelector((state) => state.order.ingredientCounts);
 
   const handleAddToOrder = (ingredient: TIngredient) => {
     dispatch(addIngredient(ingredient));
-  };
-
-  const handleImageClick = (ingredient: TIngredient) => {
-    dispatch(setSelectedIngredient(ingredient));
   };
 
   return (
@@ -85,7 +79,7 @@ export const BurgerIngredients: FC<BurgerIngredientsProps> = ({
               key={bun._id}
               ingredient={bun}
               count={ingredientCounts[bun._id] || 0}
-              locationState={{ background: location }} // Pass locationState
+              locationState={{ background: location }} // передаем locationState
               handleAdd={() => handleAddToOrder(bun)}
             />
           ))}
@@ -97,7 +91,7 @@ export const BurgerIngredients: FC<BurgerIngredientsProps> = ({
               key={main._id}
               ingredient={main}
               count={ingredientCounts[main._id] || 0}
-              locationState={{ background: location }} // Pass locationState
+              locationState={{ background: location }} // передаем locationState
               handleAdd={() => handleAddToOrder(main)}
             />
           ))}
@@ -109,7 +103,7 @@ export const BurgerIngredients: FC<BurgerIngredientsProps> = ({
               key={sauce._id}
               ingredient={sauce}
               count={ingredientCounts[sauce._id] || 0}
-              locationState={{ background: location }} // Pass locationState
+              locationState={{ background: location }} // передаем locationState
               handleAdd={() => handleAddToOrder(sauce)}
             />
           ))}
