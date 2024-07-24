@@ -1,3 +1,4 @@
+// src/services/store.ts
 import {
   configureStore,
   combineReducers,

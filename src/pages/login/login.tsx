@@ -15,12 +15,11 @@ export const Login: FC = () => {
     (state: RootState) => state.user
   );
 
-  // Capture the route the user came from, or default to profile
   const from = location.state?.from?.pathname || '/profile';
 
   useEffect(() => {
     if (isAuthenticated) {
-      navigate(from); // Перенаправление после успешного входа
+      navigate(from);
     }
   }, [isAuthenticated, navigate, from]);
 

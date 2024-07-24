@@ -1,10 +1,11 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
 import { AppThunk, RootState } from '../store';
 import {
   loginUserApi,
   registerUserApi,
   updateUserApi,
   getUserApi,
+  logoutApi, // Импортируем API выхода
   TLoginData,
   TRegisterData,
   TAuthResponse,
@@ -36,7 +37,7 @@ const userSlice = createSlice({
     },
     loginSuccess: (state, action: PayloadAction<TUser>) => {
       state.user = action.payload;
-      state.isAuthenticated = true; // Убедитесь, что состояние обновляется
+      state.isAuthenticated = true;
       state.isLoading = false;
       state.hasError = false;
     },
@@ -50,7 +51,7 @@ const userSlice = createSlice({
     },
     registerSuccess: (state, action: PayloadAction<TUser>) => {
       state.user = action.payload;
-      state.isAuthenticated = true; // Убедитесь, что состояние обновляется
+      state.isAuthenticated = true;
       state.isLoading = false;
       state.hasError = false;
     },
@@ -77,7 +78,7 @@ const userSlice = createSlice({
     },
     fetchUserSuccess: (state, action: PayloadAction<TUser>) => {
       state.user = action.payload;
-      state.isAuthenticated = true; // Убедитесь, что состояние обновляется
+      state.isAuthenticated = true;
       state.isLoading = false;
       state.hasError = false;
     },
@@ -151,6 +152,17 @@ export const fetchUser = (): AppThunk => async (dispatch) => {
     dispatch(fetchUserSuccess(response.user));
   } catch (error) {
     dispatch(fetchUserFailed());
+  }
+};
+
+export const logoutUser = (): AppThunk => async (dispatch) => {
+  try {
+    await logoutApi();
+  } catch (error) {
+    console.error('Logout failed:', error);
+  } finally {
+    localStorage.removeItem('refreshToken'); // Удаляем токен из localStorage
+    dispatch(logout());
   }
 };
 
