@@ -1,24 +1,14 @@
-import { FC, memo, useEffect } from 'react';
+import { FC, memo } from 'react';
 import styles from './feed.module.css';
 import { OrdersList, FeedInfo } from '@components';
 import { RefreshButton } from '@zlden/react-developer-burger-ui-components';
 import { useDispatch, useSelector } from '../../../../services/store';
-import {
-  startOrderFeed,
-  stopOrderFeed
-} from '../../../../services/slices/orderFeedSlice';
+import { startOrderFeed } from '../../../../services/slices/orderFeedSlice';
 import { TOrder } from '../../../../utils/types';
 
 const FeedUI: FC = memo(() => {
   const dispatch = useDispatch();
   const orders = useSelector((state) => state.orderFeed.orders);
-
-  useEffect(() => {
-    dispatch(startOrderFeed() as any);
-    return () => {
-      dispatch(stopOrderFeed() as any);
-    };
-  }, [dispatch]);
 
   const handleOrderClick = (order: TOrder) => {
     // Реализуйте логику открытия модального окна для заказа

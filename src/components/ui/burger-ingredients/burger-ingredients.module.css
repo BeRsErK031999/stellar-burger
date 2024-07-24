@@ -7,6 +7,8 @@
   display: flex;
   flex-direction: column;
   padding: 20px;
+  height: 1200px; /* Задаем фиксированную высоту */
+  overflow: hidden; /* Скрываем прокрутку у контейнера */
 }
 
 p {
@@ -35,7 +37,8 @@ p {
 }
 
 .content {
-  overflow-y: scroll;
+  overflow-y: auto; /* Разрешаем прокрутку содержимого */
+  flex: 1; /* Растягиваем контейнер для использования оставшегося пространства */
 }
 
 .menu {
