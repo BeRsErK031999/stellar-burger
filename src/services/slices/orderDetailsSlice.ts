@@ -2,6 +2,7 @@ import { createSlice, PayloadAction, ThunkAction } from '@reduxjs/toolkit';
 import { TOrder } from '../../utils/types';
 import { RootState, AppDispatch } from '../store';
 import { AnyAction } from '@reduxjs/toolkit';
+import { getOrderByNumberApi } from '../../utils/burger-api';
 
 interface OrderDetailsState {
   order: TOrder | null;
@@ -45,13 +46,7 @@ export const fetchOrderById =
   async (dispatch: AppDispatch) => {
     dispatch(fetchOrderDetailsStart());
     try {
-      const response = await fetch(
-        `https://norma.nomoreparties.space/api/orders/${id}`
-      );
-      if (!response.ok) {
-        throw new Error('Failed to fetch order details');
-      }
-      const data = await response.json();
+      const data = await getOrderByNumberApi(parseInt(id));
       dispatch(fetchOrderDetailsSuccess(data.orders[0]));
     } catch (error) {
       dispatch(fetchOrderDetailsFailure(String(error)));

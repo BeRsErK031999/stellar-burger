@@ -1,4 +1,3 @@
-// src/components/app/app.tsx
 import { useEffect } from 'react';
 import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import '../../index.css';
@@ -16,7 +15,6 @@ import { ProfileOrders } from '@pages';
 import { NotFound404 } from '@pages';
 import { OrderInfo } from '@components';
 import IngredientDetails from '../ingredient-details/ingredient-details';
-import { ModalWrapper } from '../../components/modal/modal';
 import ProtectedRoute from '../../pages/PrivateRoute';
 import { useDispatch, useSelector, RootState } from '../../services/store';
 import {
@@ -76,7 +74,10 @@ const App = () => {
           />
           <Route path='*' element={<NotFound404 />} />
           <Route path='/feed/:number' element={<OrderInfo />} />
-          <Route path='/ingredients/:id' element={<IngredientDetails />} />
+          <Route
+            path='/ingredients/:id'
+            element={<IngredientDetails onClose={handleCloseModal} />}
+          />
           <Route
             path='/profile/orders/:number'
             element={
@@ -91,12 +92,10 @@ const App = () => {
             <Route
               path='/ingredients/:id'
               element={
-                <ModalWrapper
-                  title='Детали ингредиента'
+                <IngredientDetails
+                  ingredient={selectedIngredient}
                   onClose={handleCloseModal}
-                >
-                  <IngredientDetails ingredient={selectedIngredient} />
-                </ModalWrapper>
+                />
               }
             />
           </Routes>

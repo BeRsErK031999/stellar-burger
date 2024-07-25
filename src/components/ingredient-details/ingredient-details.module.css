@@ -1,36 +1,81 @@
-.details {
-  text-align: center;
+.overlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.details img {
-  max-width: 240px;
+.modal {
+  width: 720px;
+  height: 538px;
+  background-color: #1c1c21;
+  border-radius: 40px;
+  padding: 40px;
+  position: relative;
+  box-shadow: 0px 24px 32px rgba(0, 0, 0, 0.04),
+              0px 16px 24px rgba(0, 0, 0, 0.04),
+              0px 4px 8px rgba(0, 0, 0, 0.04),
+              0px 0px 1px rgba(0, 0, 0, 0.04);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.closeIcon {
+  cursor: pointer;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-grow: 1;
+  justify-content: center;
+}
+
+.image {
+  width: 480px;
+  height: 240px;
   margin-bottom: 16px;
 }
 
-.details h3 {
+h3 {
   font-size: 24px;
   line-height: 1.2;
   margin-bottom: 16px;
 }
 
-.details ul {
+.nutrients {
   list-style: none;
   padding: 0;
   display: flex;
   justify-content: space-around;
-  margin-top: 32px;
+  width: 100%;
+  position: absolute;
+  bottom: 40px;
 }
 
-.details ul li {
+.nutrient {
   display: flex;
   flex-direction: column;
   align-items: center;
-  font-size: 14px;
-  color: #f2f2f3;
 }
 
-.details ul li span {
+.nutrient span {
   margin-top: 8px;
-  font-size: 24px;
-  color: #ffffff;
+  font-size: 14px;
+  color: #f2f2f3;
 }

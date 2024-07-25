@@ -8,7 +8,7 @@ import { ModalUI } from '@ui';
 const modalRoot = document.getElementById('modals');
 
 export const ModalWrapper: FC<TModalProps> = memo(
-  ({ title, onClose, children }) => {
+  ({ title, onClose, children, width = 'auto', height = 'auto' }) => {
     const modalRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
@@ -35,8 +35,12 @@ export const ModalWrapper: FC<TModalProps> = memo(
 
     return ReactDOM.createPortal(
       <div className={styles.overlay}>
-        <div className={styles.modal} ref={modalRef}>
-          <ModalUI title={title} onClose={onClose}>
+        <div
+          className={styles.modal}
+          ref={modalRef}
+          style={{ width: width || 'auto', height: height || 'auto' }}
+        >
+          <ModalUI title={title || ''} onClose={onClose}>
             {children}
           </ModalUI>
         </div>
