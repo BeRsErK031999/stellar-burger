@@ -31,11 +31,17 @@ const OrderDetailsFullUI: FC<OrderDetailsFullUIProps> = ({
       <h2 className={`${styles.title} text text_type_digits-large mt-2 mb-4`}>
         #{String(order.number).padStart(6, '0')}
       </h2>
-      <h4 className={`text text_type_main-medium mb-6`}>{order.name}</h4>
+      <h3 className={`text text_type_main-medium mb-6 ${styles.orderName}`}>
+        {order.name}
+      </h3>
       <p className={`text text_type_main-default mb-6 ${styles.status}`}>
         {order.status}
       </p>
-      <p className='text text_type_main-medium mb-6'>Состав:</p>
+      <h4
+        className={`text text_type_main-medium mb-6 ${styles.ingredientsTitle}`}
+      >
+        Состав:
+      </h4>
       <ul className={styles.ingredientList}>
         {orderIngredients.map(
           (ingredient, index) =>

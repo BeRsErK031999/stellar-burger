@@ -1,4 +1,3 @@
-// src/pages/login/login.tsx
 import { FC, SyntheticEvent, useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { LoginUI } from '@ui-pages';
@@ -15,7 +14,7 @@ export const Login: FC = () => {
     (state: RootState) => state.user
   );
 
-  const from = location.state?.from?.pathname || '/profile';
+  const from = location.state?.from?.pathname || '/';
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -26,7 +25,7 @@ export const Login: FC = () => {
   const handleSubmit = async (e: SyntheticEvent) => {
     e.preventDefault();
     try {
-      await dispatch(loginUser({ email, password }) as any);
+      await dispatch(loginUser({ email, password }) as any).unwrap();
     } catch (error) {
       console.error('Login failed:', error);
     }

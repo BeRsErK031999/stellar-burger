@@ -1,4 +1,3 @@
-// src/pages/PrivateRoute.tsx
 import { useSelector } from 'react-redux';
 import { Navigate, useLocation } from 'react-router-dom';
 import { RootState } from '../services/store';
@@ -16,7 +15,7 @@ const ProtectedRoute: FC<PropsWithChildren<ProtectedRouteProps>> = ({
     (state: RootState) => state.user.isAuthenticated
   );
   const location = useLocation();
-  const from = location.state?.from || '/';
+  const from = location.state?.from?.pathname || '/';
 
   if (anonymous && isAuthenticated) {
     return <Navigate to={from} />;

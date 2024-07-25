@@ -3,53 +3,47 @@
 }
 
 .orderId {
-  text-align: center;
+  font-size: 24px;
+  margin-bottom: 40px;
 }
 
 .orderName {
-  margin-top: 40px;
-  text-align: center;
+  font-size: 40px;
+  margin-bottom: 15px;
 }
 
 .orderStatus {
-  margin-top: 12px;
-  text-align: center;
+  color: #00cccc;
+  margin-bottom: 15px;
 }
 
 .ingredientsTitle {
-  margin-top: 60px;
+  font-size: 24px;
+  margin-bottom: 15px;
 }
 
 .ingredientsList {
-  margin-top: 24px;
   list-style: none;
   padding: 0;
+  margin: 0;
 }
 
 .ingredientItem {
   display: flex;
   align-items: center;
-  margin-bottom: 24px;
+  margin-bottom: 16px;
 }
 
 .ingredientImage {
-  width: 56px;
-  height: 56px;
+  width: 80px;
+  height: 80px;
   border-radius: 50%;
-  margin-right: 16px;
-}
-
-.ingredientName {
-  flex-grow: 1;
-}
-
-.ingredientPrice {
-  display: flex;
-  align-items: center;
 }
 
 .orderInfo {
   margin-top: 40px;
-  display: flex;
-  justify-content: space-between;
+}
+
+.orderTotal {
+  font-weight: bold;
 }

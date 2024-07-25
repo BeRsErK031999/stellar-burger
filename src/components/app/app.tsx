@@ -4,15 +4,17 @@ import '../../index.css';
 import styles from './app.module.css';
 
 import { AppHeader } from '@components';
-import { ConstructorPage } from '@pages';
-import { Feed } from '@pages';
-import { Login } from '@pages';
-import { Register } from '@pages';
-import { ForgotPassword } from '@pages';
-import { ResetPassword } from '@pages';
-import { Profile } from '@pages';
-import { ProfileOrders } from '@pages';
-import { NotFound404 } from '@pages';
+import {
+  ConstructorPage,
+  Feed,
+  Login,
+  Register,
+  ForgotPassword,
+  ResetPassword,
+  Profile,
+  ProfileOrders,
+  NotFound404
+} from '@pages';
 import { OrderInfo } from '@components';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import ProtectedRoute from '../../pages/PrivateRoute';
