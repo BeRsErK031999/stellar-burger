@@ -1,18 +1,28 @@
-import { FC, memo } from 'react';
+import { FC, memo, useState } from 'react';
 import styles from './feed.module.css';
-import { OrdersList, FeedInfo } from '@components';
+import { OrdersList, FeedInfo, Modal } from '@components';
 import { RefreshButton } from '@zlden/react-developer-burger-ui-components';
 import { useDispatch, useSelector } from '../../../../services/store';
 import { startOrderFeed } from '../../../../services/slices/orderFeedSlice';
+import { fetchOrderFullById } from '../../../../services/slices/orderDetailsFullSlice';
 import { TOrder } from '../../../../utils/types';
+import OrderDetailsFullUI from '../../order-details-full/order-details-full'; // Убедитесь, что путь правильный
 
 const FeedUI: FC = memo(() => {
   const dispatch = useDispatch();
   const orders = useSelector((state) => state.orderFeed.orders);
+  const { order, isLoading } = useSelector((state) => state.orderDetailsFull);
+  const { items: ingredients } = useSelector((state) => state.ingredients);
+
+  const [selectedOrder, setSelectedOrder] = useState<TOrder | null>(null);
 
   const handleOrderClick = (order: TOrder) => {
-    // Реализуйте логику открытия модального окна для заказа
-    console.log(order);
+    setSelectedOrder(order);
+    dispatch(fetchOrderFullById(order.number.toString()));
+  };
+
+  const closeOrderModal = () => {
+    setSelectedOrder(null);
   };
 
   return (
@@ -35,6 +45,20 @@ const FeedUI: FC = memo(() => {
           <FeedInfo />
         </div>
       </div>
+      {selectedOrder && (
+        <Modal
+          onClose={closeOrderModal}
+          title={`Заказ #${selectedOrder.number}`}
+        >
+          {isLoading ? (
+            <p>Загрузка...</p>
+          ) : (
+            order && (
+              <OrderDetailsFullUI order={order} ingredients={ingredients} />
+            )
+          )}
+        </Modal>
+      )}
     </main>
   );
 });

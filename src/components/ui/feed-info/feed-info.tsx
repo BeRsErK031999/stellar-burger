@@ -3,7 +3,7 @@ import styles from './feed-info.module.css';
 import { FeedInfoUIProps, HalfColumnProps, TColumnProps } from './type';
 
 export const FeedInfoUI: FC<FeedInfoUIProps> = memo(
-  ({ feed, readyOrders, pendingOrders }) => {
+  ({ feed, readyOrders, pendingOrders, onOrderClick }) => {
     const { total, totalToday } = feed;
 
     return (
@@ -13,8 +13,13 @@ export const FeedInfoUI: FC<FeedInfoUIProps> = memo(
             orders={readyOrders}
             title={'Готовы'}
             textColor={'blue'}
+            onOrderClick={onOrderClick}
           />
-          <HalfColumn orders={pendingOrders} title={'В работе'} />
+          <HalfColumn
+            orders={pendingOrders}
+            title={'В работе'}
+            onOrderClick={onOrderClick}
+          />
         </div>
         <Column title={'Выполнено за все время'} content={total} />
         <Column title={'Выполнено за сегодня'} content={totalToday} />
@@ -23,7 +28,12 @@ export const FeedInfoUI: FC<FeedInfoUIProps> = memo(
   }
 );
 
-const HalfColumn: FC<HalfColumnProps> = ({ orders, title, textColor }) => (
+const HalfColumn: FC<HalfColumnProps> = ({
+  orders,
+  title,
+  textColor,
+  onOrderClick
+}) => (
   <div className={`pr-6 ${styles.column}`}>
     <h3 className={`text text_type_main-medium ${styles.title}`}>{title}:</h3>
     <ul className={`pt-6 ${styles.list}`}>
@@ -32,6 +42,7 @@ const HalfColumn: FC<HalfColumnProps> = ({ orders, title, textColor }) => (
           className={`text text_type_digits-default ${styles.list_item}`}
           style={{ color: textColor === 'blue' ? '#00cccc' : '#F2F2F3' }}
           key={index}
+          onClick={() => onOrderClick(item.toString())}
         >
           {item}
         </li>

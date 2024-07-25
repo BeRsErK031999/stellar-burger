@@ -1,4 +1,3 @@
-// src/services/store.ts
 import {
   configureStore,
   combineReducers,
@@ -17,7 +16,8 @@ import userReducer from './slices/userSlice';
 import orderReducer from './slices/orderSlice';
 import orderFeedReducer from './slices/orderFeedSlice';
 import orderDetailsReducer from './slices/orderDetailsSlice';
-import userOrdersReducer from './slices/userOrdersSlice'; // Импортируйте новый слайс
+import userOrdersReducer from './slices/userOrdersSlice';
+import orderDetailsFullReducer from './slices/orderDetailsFullSlice'; // Импорт нового слайса
 
 const rootReducer = combineReducers({
   ingredients: ingredientsReducer,
@@ -26,7 +26,8 @@ const rootReducer = combineReducers({
   order: orderReducer,
   orderFeed: orderFeedReducer,
   orderDetails: orderDetailsReducer,
-  userOrders: userOrdersReducer // Добавьте новый слайс
+  userOrders: userOrdersReducer,
+  orderDetailsFull: orderDetailsFullReducer // Добавление нового слайса
 });
 
 const middleware: Middleware<{}, any, any>[] = [thunk];

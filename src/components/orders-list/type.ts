@@ -1,6 +1,6 @@
 import { TOrder } from '../../utils/types';
 
-export type OrdersListProps = {
+export interface OrdersListProps {
   orders: TOrder[];
   onOrderClick: (order: TOrder) => void;
-};
+}

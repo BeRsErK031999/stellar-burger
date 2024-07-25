@@ -1,0 +1,37 @@
+.orderDetails {
+    /* Добавьте нужные стили */
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .title {
+    margin-top: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .ingredientList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .ingredient {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .ingredientImage {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+  }
+  
+  .total {
+    margin-top: 20px;
+  }
+  
+  .totalPrice {
+    font-weight: bold;
+  }
+  
