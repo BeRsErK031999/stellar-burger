@@ -1,1 +1,1 @@
-export { OrderDetailsUI } from './order-details';
+export { default as OrderDetailsUI } from './order-details';

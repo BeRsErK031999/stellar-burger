@@ -8,12 +8,13 @@ export type TIngredient = {
   calories: number;
   price: number;
   image: string;
-  image_large: string;
   image_mobile: string;
+  image_large: string;
+  __v: number;
 };
 
 export type TConstructorIngredient = TIngredient & {
-  id: string;
+  uuid: string;
 };
 
 export type TOrder = {
@@ -31,9 +32,27 @@ export type TOrdersData = {
   total: number;
   totalToday: number;
 };
-
 export type TUser = {
+  user(user: any): { payload: TUser; type: 'user/loginSuccess' };
   email: string;
+  name: string;
+};
+
+export type TAuthResponse = {
+  success: boolean;
+  accessToken: string;
+  refreshToken: string;
+  user: TUser;
+};
+
+export type TLoginData = {
+  email: string;
+  password: string;
+};
+
+export type TRegisterData = {
+  email: string;
+  password: string;
   name: string;
 };
 

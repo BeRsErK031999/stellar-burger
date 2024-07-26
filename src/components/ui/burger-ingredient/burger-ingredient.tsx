@@ -1,18 +1,31 @@
+// src/components/ui/burger-ingredient/burger-ingredient.tsx
 import React, { FC, memo } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './burger-ingredient.module.css';
-
 import {
-  Counter,
   CurrencyIcon,
   AddButton
 } from '@zlden/react-developer-burger-ui-components';
-
 import { TBurgerIngredientUIProps } from './type';
+import { useDispatch } from '../../../services/store';
+import { setSelectedIngredient } from '../../../services/slices/ingredientsSlice';
+import { addIngredient } from '../../../services/slices/orderSlice';
 
 export const BurgerIngredientUI: FC<TBurgerIngredientUIProps> = memo(
-  ({ ingredient, count, handleAdd, locationState }) => {
+  ({ ingredient, count, locationState, handleAdd }) => {
+    const dispatch = useDispatch();
     const { image, price, name, _id } = ingredient;
+
+    const handleImageClick = () => {
+      dispatch(setSelectedIngredient(ingredient));
+    };
+
+    const handleAddToOrder = (
+      e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+    ) => {
+      e.stopPropagation(); // предотвращает переход по ссылке
+      dispatch(addIngredient(ingredient));
+    };
 
     return (
       <li className={styles.container}>
@@ -20,18 +33,19 @@ export const BurgerIngredientUI: FC<TBurgerIngredientUIProps> = memo(
           className={styles.article}
           to={`/ingredients/${_id}`}
           state={locationState}
+          onClick={handleImageClick}
         >
-          {count && <Counter count={count} />}
+          {count > 0 && <div className={styles.counter}>{count}</div>}
           <img className={styles.img} src={image} alt='картинка ингредиента.' />
-          <div className={`${styles.cost} mt-2 mb-2`}>
-            <p className='text text_type_digits-default mr-2'>{price}</p>
-            <CurrencyIcon type='primary' />
-          </div>
-          <p className={`text text_type_main-default ${styles.text}`}>{name}</p>
         </Link>
+        <div className={`${styles.cost} mt-2 mb-2`}>
+          <p className='text text_type_digits-default mr-2'>{price}</p>
+          <CurrencyIcon type='primary' />
+        </div>
+        <p className={`text text_type_main-default ${styles.text}`}>{name}</p>
         <AddButton
           text='Добавить'
-          onClick={handleAdd}
+          onClick={handleAddToOrder as any}
           extraClass={`${styles.addButton} mt-8`}
         />
       </li>

@@ -1,1 +1,1 @@
-export { Modal } from './modal';
+export { ModalWrapper as Modal } from './modal';

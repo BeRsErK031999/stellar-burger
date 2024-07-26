@@ -1,10 +1,22 @@
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
+import { useDispatch } from '../../services/store';
+import {
+  startOrderFeed,
+  stopOrderFeed
+} from '../../services/slices/orderFeedSlice';
+import FeedUI from '../../components/ui/pages/feed/feed';
 
-export const Feed: FC = () =>
-  // if (!orders.length) {
-  //   return <Preloader />;
-  // }
+export const Feed: FC = () => {
+  const dispatch = useDispatch();
 
-  // return <FeedUI orders={orders} handleGetFeeds={handleGetFeeds} />;
+  useEffect(() => {
+    dispatch(startOrderFeed() as any);
+    return () => {
+      dispatch(stopOrderFeed() as any);
+    };
+  }, [dispatch]);
 
-  null;
+  return <FeedUI />;
+};
+
+export default Feed;

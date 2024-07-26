@@ -1,0 +1,49 @@
+.orderDetails {
+  padding: 20px;
+}
+
+.orderId {
+  font-size: 24px;
+  margin-bottom: 40px;
+}
+
+.orderName {
+  font-size: 40px;
+  margin-bottom: 15px;
+}
+
+.orderStatus {
+  color: #00cccc;
+  margin-bottom: 15px;
+}
+
+.ingredientsTitle {
+  font-size: 24px;
+  margin-bottom: 15px;
+}
+
+.ingredientsList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.ingredientItem {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.ingredientImage {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+}
+
+.orderInfo {
+  margin-top: 40px;
+}
+
+.orderTotal {
+  font-weight: bold;
+}

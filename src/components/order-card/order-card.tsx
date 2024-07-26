@@ -1,54 +1,83 @@
-import { FC, memo } from 'react';
-import { useLocation } from 'react-router-dom';
+import React, { FC, memo } from 'react';
+import { useSelector } from '../../services/store';
+import { RootState } from '../../services/store';
+import styles from '../ui/order-card/order-card.module.css';
+import {
+  CurrencyIcon,
+  FormattedDate
+} from '@zlden/react-developer-burger-ui-components';
+import { TOrder } from '../../utils/types';
 
-import { OrderCardProps } from './type';
+interface OrderCardProps {
+  order: TOrder;
+  onClick: (order: TOrder) => void;
+}
 
-const maxIngredients = 6;
+export const OrderCard: FC<OrderCardProps> = memo(({ order, onClick }) => {
+  const ingredients = useSelector(
+    (state: RootState) => state.ingredients.items
+  );
 
-export const OrderCard: FC<OrderCardProps> = memo(({ order }) => {
-  const location = useLocation();
+  const orderIngredients = order.ingredients.map((id) =>
+    ingredients.find((ingredient) => ingredient._id === id)
+  );
 
-  // const orderInfo = useMemo(() => {
-  //   if (!ingredients.length) return null;
+  const orderTotal = orderIngredients.reduce((sum, ingredient) => {
+    if (ingredient) {
+      return sum + ingredient.price;
+    }
+    return sum;
+  }, 0);
 
-  //   const ingredientsInfo = order.ingredients.reduce(
-  //     (acc: TIngredient[], item: string) => {
-  //       const ingredient = ingredients.find((ing) => ing._id === item);
-  //       if (ingredient) return [...acc, ingredient];
-  //       return acc;
-  //     },
-  //     []
-  //   );
-
-  //   const total = ingredientsInfo.reduce((acc, item) => acc + item.price, 0);
-
-  //   const ingredientsToShow = ingredientsInfo.slice(0, maxIngredients);
-
-  //   const remains =
-  //     ingredientsInfo.length > maxIngredients
-  //       ? ingredientsInfo.length - maxIngredients
-  //       : 0;
-
-  //   const date = new Date(order.createdAt);
-  //   return {
-  //     ...order,
-  //     ingredientsInfo,
-  //     ingredientsToShow,
-  //     remains,
-  //     total,
-  //     date
-  //   };
-  // }, [order, ingredients]);
-
-  // if (!orderInfo) return null;
-
-  // return (
-  //   <OrderCardUI
-  //     orderInfo={orderInfo}
-  //     maxIngredients={maxIngredients}
-  //     locationState={{ background: location }}
-  //   />
-  // );
-
-  return null;
+  return (
+    <div className={`${styles.order} p-6 mb-4`} onClick={() => onClick(order)}>
+      <div className={styles.order_info}>
+        <span className={`text text_type_digits-default ${styles.number}`}>
+          #{String(order.number).padStart(6, '0')}
+        </span>
+        <span className='text text_type_main-default text_color_inactive'>
+          <FormattedDate date={new Date(order.createdAt)} />
+        </span>
+      </div>
+      <h4 className={`pt-6 text text_type_main-medium ${styles.order_name}`}>
+        {order.name}
+      </h4>
+      <div className={`pt-6 ${styles.order_content}`}>
+        <ul className={styles.ingredients}>
+          {orderIngredients.slice(0, 6).map((ingredient, index) => (
+            <li
+              key={index}
+              className={styles.img_wrap}
+              style={{ zIndex: 6 - index }}
+            >
+              {ingredient && (
+                <img
+                  className={styles.img}
+                  src={ingredient.image_mobile}
+                  alt={ingredient.name}
+                />
+              )}
+            </li>
+          ))}
+          {orderIngredients.length > 6 && (
+            <li className={styles.img_wrap}>
+              <span
+                className={`text text_type_digits-default ${styles.remains}`}
+              >
+                +{orderIngredients.length - 6}
+              </span>
+            </li>
+          )}
+        </ul>
+        <div>
+          <span
+            className={`text text_type_digits-default pr-1 ${styles.order_total}`}
+          >
+            {orderTotal}
+          </span>
+          <CurrencyIcon type='primary' />
+        </div>
+      </div>
+    </div>
+  );
 });

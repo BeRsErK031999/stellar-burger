@@ -1,0 +1,11 @@
+.profileLayout {
+    display: flex;
+    flex-direction: row;
+    padding: 16px;
+  }
+  
+  .content {
+    flex-grow: 1;
+    padding-left: 16px;
+  }
+  

@@ -1,10 +1,14 @@
+/* src/components/ui/burger-ingredients/burger-ingredients.module.css */
+
 .burger_ingredients {
   font-family: 'Jet Brains Mono';
   color: #f2f2f3;
   max-width: 600px;
-
   display: flex;
   flex-direction: column;
+  padding: 20px;
+  height: 1200px; /* Задаем фиксированную высоту */
+  overflow: hidden; /* Скрываем прокрутку у контейнера */
 }
 
 p {
@@ -13,10 +17,28 @@ p {
 
 .tab {
   width: 120px;
+  padding: 10px;
+  cursor: pointer;
+  background-color: #1c1c1e;
+  border: none;
+  color: #f2f2f3;
+  font-size: 16px;
+  text-align: center;
+  transition: background-color 0.3s;
+}
+
+.tab:hover {
+  background-color: #3c3c41;
+}
+
+.tab.active {
+  background-color: #1c1c1e;
+  border-bottom: 2px solid #4c4cff;
 }
 
 .content {
-  overflow-y: scroll;
+  overflow-y: auto; /* Разрешаем прокрутку содержимого */
+  flex: 1; /* Растягиваем контейнер для использования оставшегося пространства */
 }
 
 .menu {
@@ -32,4 +54,67 @@ p {
   font-weight: bold;
   font-size: 24px;
   line-height: 30px;
+}
+
+.ingredientsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  width: 100%;
+}
+
+.ingredientCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #1c1c1e;
+  border-radius: 8px;
+  padding: 10px;
+  height: 160px;
+  justify-content: space-between;
+  position: relative;
+}
+
+.ingredientImage {
+  width: 80px;
+  height: 80px;
+}
+
+.price {
+  font-size: 16px;
+  color: #f2f2f3;
+  margin: 4px 0;
+}
+
+.ingredientName {
+  font-size: 14px;
+  color: #f2f2f3;
+  margin: 4px 0;
+  text-align: center;
+  height: 40px;
+}
+
+.addButton {
+  background-color: #1c1c1e;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 16px;
+  color: #fff;
+  cursor: pointer;
+}
+
+.counter {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  background-color: #4c4cff;
+  color: #ffffff;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: bold;
 }

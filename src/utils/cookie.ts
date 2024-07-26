@@ -7,12 +7,10 @@ export function getCookie(name: string): string | undefined {
         '=([^;]*)'
     )
   );
-  return matches ? decodeURIComponent(matches[1]) : undefined;
+  const cookieValue = matches ? decodeURIComponent(matches[1]) : undefined;
+  console.log(`getCookie: ${name} = ${cookieValue}`); // Добавление отладочного сообщения
+  return cookieValue;
 }
-
-/* В тренажере приводится несовсем корректный пример этой функции
- там не задается path и возможна ситуация, когда на разных страницах в cookies
- будут разные токены, поэтому в path нужно задавать корень сайта path: '/' */
 
 export function setCookie(
   name: string,
@@ -44,8 +42,10 @@ export function setCookie(
     }
   }
   document.cookie = updatedCookie;
+  console.log(`setCookie: ${name} = ${value}`, props); // Добавление отладочного сообщения
 }
 
 export function deleteCookie(name: string) {
   setCookie(name, '', { expires: -1 });
+  console.log(`deleteCookie: ${name}`); // Добавление отладочного сообщения
 }

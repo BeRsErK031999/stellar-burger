@@ -1,3 +1,6 @@
+import { TOrder, TIngredient } from '../../../utils/types';
+
 export type OrderDetailsUIProps = {
-  orderNumber: number;
+  order: TOrder;
+  ingredients: TIngredient[];
 };

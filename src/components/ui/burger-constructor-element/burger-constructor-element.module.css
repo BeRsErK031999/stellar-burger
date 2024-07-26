@@ -1,11 +1,13 @@
+/* src/components/ui/burger-constructor-element/burger-constructor-element.module.css */
 .element {
   display: flex;
   align-items: center;
   justify-content: flex-end;
+  margin-bottom: 20px; /* Add margin-bottom for spacing */
 }
 
-.element:last-child {
-  margin-bottom: 0;
+.element:not(:last-child) {
+  margin-bottom: 20px; /* Ensure only elements that are not the last child get the margin */
 }
 
 .element_fullwidth {

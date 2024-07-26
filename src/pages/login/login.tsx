@@ -1,17 +1,39 @@
-import { FC, SyntheticEvent, useState } from 'react';
+import { FC, SyntheticEvent, useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { LoginUI } from '@ui-pages';
+import { loginUser } from '../../services/slices/userSlice';
+import { useDispatch, useSelector, RootState } from '../../services/store';
 
 export const Login: FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { isAuthenticated, hasError } = useSelector(
+    (state: RootState) => state.user
+  );
 
-  const handleSubmit = (e: SyntheticEvent) => {
+  const from = location.state?.from?.pathname || '/';
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate(from);
+    }
+  }, [isAuthenticated, navigate, from]);
+
+  const handleSubmit = async (e: SyntheticEvent) => {
     e.preventDefault();
+    try {
+      await dispatch(loginUser({ email, password }) as any).unwrap();
+    } catch (error) {
+      console.error('Login failed:', error);
+    }
   };
 
   return (
     <LoginUI
-      errorText=''
+      errorText={hasError ? 'Invalid login credentials' : ''}
       email={email}
       setEmail={setEmail}
       password={password}
