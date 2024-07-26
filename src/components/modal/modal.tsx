@@ -34,11 +34,12 @@ export const ModalWrapper: FC<TModalProps> = memo(
     }, [onClose]);
 
     return ReactDOM.createPortal(
-      <div className={styles.overlay}>
+      <div className={styles.overlay} onClick={onClose}>
         <div
           className={styles.modal}
           ref={modalRef}
-          style={{ width: width || 'auto', height: height || 'auto' }}
+          style={{ width, height }}
+          onClick={(e) => e.stopPropagation()} // Предотвращаем закрытие при клике внутри модального окна
         >
           <ModalUI title={title || ''} onClose={onClose}>
             {children}

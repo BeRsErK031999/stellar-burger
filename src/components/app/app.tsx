@@ -25,6 +25,7 @@ import {
 } from '../../services/slices/ingredientsSlice';
 import { fetchUser } from '../../services/slices/userSlice';
 import { OrderDetailsPage } from '../../pages/order-details-page';
+import ModalWrapper from '../modal/modal';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -94,10 +95,15 @@ const App = () => {
             <Route
               path='/ingredients/:id'
               element={
-                <IngredientDetails
-                  ingredient={selectedIngredient}
+                <ModalWrapper
+                  title='Детали ингредиента'
                   onClose={handleCloseModal}
-                />
+                >
+                  <IngredientDetails
+                    ingredient={selectedIngredient}
+                    onClose={handleCloseModal}
+                  />
+                </ModalWrapper>
               }
             />
           </Routes>
